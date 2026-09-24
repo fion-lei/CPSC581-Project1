@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Monogram";
+  src: url("../../fonts/monogram.ttf") format("truetype");
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #20202c;
+  color: #f0f0f0;
+  font-family: "Monogram", monospace;
+  font-size: 20px;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+#turn-banner {
+  text-align: center;
+}
+
+/* Placeholder battlefield backdrop until real background art is chosen */
+#battlefield {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #2c2c3d,
+      #2c2c3d 16px,
+      #34344a 16px,
+      #34344a 32px
+    );
+  border: 2px solid #4a4a66;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+#monster-stage {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+#roster-stage {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
