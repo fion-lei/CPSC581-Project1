@@ -10,27 +10,25 @@ function mountPartyMember(container, member, statCard) {
   const hpBarEl = document.createElement("div");
   const hpBar = new HpBar(hpBarEl, { variant: "party", scale: 2 });
 
+  const attackBtn = document.createElement("button");
+  attackBtn.type = "button";
+  attackBtn.className = "party-member__attack";
+  attackBtn.setAttribute("aria-label", `${member.name}: attack`);
+  attackBtn.addEventListener("click", () => partyAttack(member.id));
+
   const spriteEl = document.createElement("div");
+  attackBtn.appendChild(spriteEl);
 
   const nameEl = document.createElement("span");
   nameEl.className = "party-member__name";
   nameEl.textContent = member.name;
 
-  const actions = document.createElement("div");
-  actions.className = "party-member__actions";
+  const specialBtn = document.createElement("button");
+  specialBtn.type = "button";
+  specialBtn.className = "party-member__special";
+  specialBtn.addEventListener("click", () => partySpecial(member.id));
 
-  const attackBtn = document.createElement("button");
-  attackBtn.type = "button";
-  attackBtn.textContent = "Attack";
-  attackBtn.addEventListener("click", () => partyAttack(member.id));
-
-  const healBtn = document.createElement("button");
-  healBtn.type = "button";
-  healBtn.textContent = "Heal";
-  healBtn.addEventListener("click", () => partyHeal(member.id));
-
-  actions.append(attackBtn, healBtn);
-  wrapper.append(hpBarEl, spriteEl, nameEl, actions);
+  wrapper.append(hpBarEl, attackBtn, nameEl, specialBtn);
   container.appendChild(wrapper);
   statCard.attach(wrapper, member);
 

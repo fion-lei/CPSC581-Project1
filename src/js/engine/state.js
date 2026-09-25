@@ -7,6 +7,8 @@ function createInitialState() {
       ...member,
       hp: member.stats.maxHp,
       alive: true,
+      acted: false,  // attacked this party turn
+      cooldown: 0,   // party turns until their special can be used again
     })),
     monster: {
       ...MONSTER,
@@ -15,6 +17,9 @@ function createInitialState() {
     },
     turn: "party",   // "party" | "monster"
     turnCount: 1,
+    specialUsed: false,         // only one special ability per party turn
+    buffs: { atk: 0, def: 0 },  // party-wide, from specials; last until the next party turn
+    busy: false,                // an action's animations are playing; ignore clicks
     gameOver: false,
     winner: null,    // "party" | "monster" | null
   };
@@ -52,6 +57,30 @@ function applyDamageToMember(id, amount) {
   }
 }
 
+// A living character can attack once per party turn, and may use their special
+// before attacking (one special per turn, not while it's cooling down).
+function canAttack(member) {
+  return gameState.turn === "party" && !gameState.gameOver && !gameState.busy &&
+    member.alive && !member.acted;
+}
+
+function canUseSpecial(member) {
+  return canAttack(member) && !gameState.specialUsed && member.cooldown === 0;
+}
+
+function allActed() {
+  return livingParty().every((m) => m.acted);
+}
+
+function applySpecial(member) {
+  const { effect, amount, cooldown } = member.special;
+  if (effect === "heal") livingParty().forEach((m) => applyHealToMember(m.id, amount));
+  if (effect === "attackUp") gameState.buffs.atk += amount;
+  if (effect === "defenseUp") gameState.buffs.def += amount;
+  member.cooldown = cooldown;
+  gameState.specialUsed = true;
+}
+
 function applyHealToMember(id, amount) {
   const member = getPartyMember(id);
   if (!member || !member.alive) return;
@@ -61,7 +90,18 @@ function applyHealToMember(id, amount) {
 function advanceTurn() {
   if (gameState.gameOver) return;
   gameState.turn = gameState.turn === "party" ? "monster" : "party";
-  if (gameState.turn === "party") gameState.turnCount++;
+  if (gameState.turn === "party") startPartyTurn();
+}
+
+// New round: everyone can act again, buffs wear off, cooldowns tick down.
+function startPartyTurn() {
+  gameState.turnCount++;
+  gameState.specialUsed = false;
+  gameState.buffs = { atk: 0, def: 0 };
+  gameState.party.forEach((m) => {
+    m.acted = false;
+    m.cooldown = Math.max(0, m.cooldown - 1);
+  });
 }
 
 window.gameState = gameState;
@@ -70,4 +110,8 @@ window.livingParty = livingParty;
 window.applyDamageToMonster = applyDamageToMonster;
 window.applyDamageToMember = applyDamageToMember;
 window.applyHealToMember = applyHealToMember;
+window.canAttack = canAttack;
+window.canUseSpecial = canUseSpecial;
+window.allActed = allActed;
+window.applySpecial = applySpecial;
 window.advanceTurn = advanceTurn;

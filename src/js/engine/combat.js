@@ -1,37 +1,51 @@
 const MONSTER_ATTACK_NAMES = ["attack1", "attack2"];
 
-async function partyAttack(memberId) {
-  if (gameState.turn !== "party" || gameState.gameOver) return;
-  const member = getPartyMember(memberId);
-  if (!member || !member.alive) return;
-
-  await partySprites[memberId].play("attack");
-  applyDamageToMonster(member.stats.atk);
+// Runs an action with clicks locked until its animations finish.
+async function runAction(action) {
+  gameState.busy = true;
   renderAll();
-
-  if (!gameState.monster.alive) {
-    await monsterSprite.play("death");
-    return;
+  try {
+    await action();
+  } finally {
+    gameState.busy = false;
+    renderAll();
   }
-  await monsterSprite.play("hurt");
-
-  advanceTurn();
-  renderAll();
-  monsterTurn();
 }
 
-async function partyHeal(memberId) {
-  if (gameState.turn !== "party" || gameState.gameOver) return;
+function partyAttack(memberId) {
   const member = getPartyMember(memberId);
-  if (!member || !member.alive) return;
+  if (!member || !canAttack(member)) return;
 
-  await partySprites[memberId].play("heal");
-  applyHealToMember(memberId, member.stats.healAmount);
-  renderAll();
+  return runAction(async () => {
+    await partySprites[memberId].play("attack");
+    applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
+    member.acted = true;
+    renderAll();
 
-  advanceTurn();
-  renderAll();
-  monsterTurn();
+    if (!gameState.monster.alive) {
+      await monsterSprite.play("death");
+      return;
+    }
+    await monsterSprite.play("hurt");
+
+    if (allActed()) {
+      advanceTurn();
+      renderAll();
+      await monsterTurn();
+    }
+  });
+}
+
+// Special abilities affect the whole party, so every living member plays the effect.
+function partySpecial(memberId) {
+  const member = getPartyMember(memberId);
+  if (!member || !canUseSpecial(member)) return;
+
+  return runAction(async () => {
+    const party = livingParty();
+    await Promise.all(party.map((m) => partySprites[m.id].play(member.special.anim)));
+    applySpecial(member);
+  });
 }
 
 async function monsterTurn() {
@@ -44,18 +58,16 @@ async function monsterTurn() {
   const attackName = MONSTER_ATTACK_NAMES[Math.floor(Math.random() * MONSTER_ATTACK_NAMES.length)];
 
   await monsterSprite.play(attackName);
-  applyDamageToMember(target.id, gameState.monster.stats.atk);
+  // Defense Up lowers the hit, but the demon always deals at least 1.
+  applyDamageToMember(target.id, Math.max(1, gameState.monster.stats.atk - gameState.buffs.def));
   renderAll();
 
-  if (gameState.gameOver) {
-    await partySprites[target.id].play("death");
-    return;
-  }
-  await partySprites[target.id].play("hurt");
+  await partySprites[target.id].play(target.alive ? "hurt" : "death");
+  if (gameState.gameOver) return;
 
   advanceTurn();
   renderAll();
 }
 
 window.partyAttack = partyAttack;
-window.partyHeal = partyHeal;
+window.partySpecial = partySpecial;

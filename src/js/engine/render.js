@@ -18,10 +18,14 @@ function renderPartyMember(member) {
   if (hpBar) hpBar.setPct(member.hp / member.stats.maxHp);
  
   el.classList.toggle("is-dead", !member.alive);
- 
-  const canAct = gameState.turn === "party" && !gameState.gameOver && member.alive;
-  el.classList.toggle("is-active-turn", canAct);
-  el.querySelectorAll("button").forEach((btn) => (btn.disabled = !canAct));
+  el.classList.toggle("has-acted", member.alive && member.acted);
+  el.querySelector(".party-member__attack").disabled = !canAttack(member);
+
+  const special = el.querySelector(".party-member__special");
+  special.textContent = member.cooldown > 0
+    ? `${member.special.name} (${member.cooldown})`
+    : member.special.name;
+  special.disabled = !canUseSpecial(member);
 }
  
 function renderMonster() {
