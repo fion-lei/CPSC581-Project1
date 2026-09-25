@@ -28,7 +28,17 @@ function mountPartyMember(container, member, statCard) {
   specialBtn.className = "party-member__special";
   specialBtn.addEventListener("click", () => partySpecial(member.id));
 
-  wrapper.append(hpBarEl, attackBtn, nameEl, specialBtn);
+  const specialIcon = document.createElement("img");
+  specialIcon.className = "party-member__special-icon";
+  specialIcon.src = encodeURI(member.special.icon);
+  specialIcon.alt = "";
+
+  // Turns of cooldown left, shown over the icon (set by render.js)
+  const specialCooldown = document.createElement("span");
+  specialCooldown.className = "party-member__special-cooldown";
+  specialBtn.append(specialIcon, specialCooldown);
+
+  wrapper.append(hpBarEl, attackBtn, specialBtn);
   container.appendChild(wrapper);
   statCard.attach(wrapper, member);
 

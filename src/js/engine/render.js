@@ -22,9 +22,10 @@ function renderPartyMember(member) {
   el.querySelector(".party-member__attack").disabled = !canAttack(member);
 
   const special = el.querySelector(".party-member__special");
-  special.textContent = member.cooldown > 0
-    ? `${member.special.name} (${member.cooldown})`
-    : member.special.name;
+  const label = member.cooldown > 0 ? `${member.special.name} (${member.cooldown})` : member.special.name;
+  special.title = label;
+  special.setAttribute("aria-label", label);
+  special.querySelector(".party-member__special-cooldown").textContent = member.cooldown || "";
   special.disabled = !canUseSpecial(member);
 }
  
