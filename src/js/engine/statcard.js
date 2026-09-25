@@ -80,8 +80,12 @@ class StatCard {
            ${portraitHtml(entity.profile)}
          </div>`
       : "";
+    // Entities from gameState carry live `hp`; show it against max HP.
     const statItems = Object.entries(stats)
-      .map(([key, value]) => `<li><b>${STAT_LABELS[key] ?? key}</b> ${value}</li>`)
+      .map(([key, value]) => {
+        const shown = key === "maxHp" && entity.hp !== undefined ? `${entity.hp}/${value}` : value;
+        return `<li><b>${STAT_LABELS[key] ?? key}</b> ${shown}</li>`;
+      })
       .join("");
 
     this.content.innerHTML = `
