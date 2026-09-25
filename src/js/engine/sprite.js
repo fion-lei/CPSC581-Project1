@@ -1,7 +1,7 @@
 const SHEET_LAYOUT = {
   frameWidth: 64,
   frameHeight: 64,
-  columns: 6,
+  columns: 6, // sheet is 6 frames x 8 rows = 384x512
   animations: {
     //         row  frames  fps  after finishing
     idle:    { row: 0, frames: 4, fps: 6,  end: 'loop' },
@@ -10,6 +10,8 @@ const SHEET_LAYOUT = {
     hurt:    { row: 3, frames: 4, fps: 10, end: 'idle' },
     death:   { row: 4, frames: 6, fps: 8,  end: 'hold' },
     heal:    { row: 5, frames: 6, fps: 8,  end: 'idle' },
+    attackUp:  { row: 6, frames: 6, fps: 8, end: 'idle' },
+    defenseUp: { row: 7, frames: 6, fps: 8, end: 'idle' },
   },
 };
 
