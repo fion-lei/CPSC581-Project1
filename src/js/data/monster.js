@@ -5,7 +5,8 @@ const MONSTER = {
   name: "Demon",
   className: "Monster",
   traits: { role: "Enemy", strengths: ["Hits hard", "Tough hide"], weaknesses: ["Fights alone"] },
-  stats: { maxHp: 10, atk: 5, def: 1 },
+  stats: { maxHp: 20, atk: 2, def: 1 },
+  body: { x: 43, y: 39, width: 20, height: 21 },
   profile: { sheet: `${MONSTER_SHEET_DIR}/Demon_A_Idle.png`, sheetWidth: 600, sheetHeight: 100, x: 37, y: 34, size: 31 },
   sprite: {
     idle:    { sheet: `${MONSTER_SHEET_DIR}/Demon_A_Idle.png`,     frameW: 100, frameH: 100, frameCount: 6, fps: 6,  end: 'loop' },
