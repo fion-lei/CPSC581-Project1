@@ -37,7 +37,7 @@ function mountMonster(container, monster) {
 
   return new SpriteCharacter(spriteEl, {
     animations: animationsFromFiles(monster.sprite),
-    scale: 2,
+    scale: 6,
     facing: "left",
   });
 }
