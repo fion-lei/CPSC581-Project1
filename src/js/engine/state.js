@@ -27,6 +27,13 @@ function createInitialState() {
 
 const gameState = createInitialState();
 
+function resetGameState() {
+  const {party, monster, ...rest} = createInitialState();
+  party.forEach((fresh, i) => Object.assign(gameState.party[i], fresh));
+  Object.assign(gameState.monster, monster);
+  Object.assign(gameState, rest);
+}
+
 function getPartyMember(id) {
   return gameState.party.find((m) => m.id === id);
 }
@@ -105,6 +112,7 @@ function startPartyTurn() {
 }
 
 window.gameState = gameState;
+window.resetGameState = resetGameState;
 window.getPartyMember = getPartyMember;
 window.livingParty = livingParty;
 window.applyDamageToMonster = applyDamageToMonster;

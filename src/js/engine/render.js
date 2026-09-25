@@ -34,11 +34,16 @@ function renderMonster() {
     monsterHpBar.setPct(gameState.monster.hp / gameState.monster.stats.maxHp);
   }
 }
- 
+
+function renderRestartButton() {
+  document.getElementById("restart-button").hidden = gameState.busy || !gameState.gameOver;
+}
+
 function renderAll() {
   renderTurnBanner();
   gameState.party.forEach(renderPartyMember);
   renderMonster();
+  renderRestartButton();
   if (window.statCard) statCard.refresh();
 }
  
