@@ -16,10 +16,6 @@
   align-items: center;
 }
 
-.party-member__name {
-  margin-top: 4px;
-}
-
 .party-member__attack {
   padding: 0;
   border: 0;

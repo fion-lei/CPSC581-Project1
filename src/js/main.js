@@ -19,10 +19,6 @@ function mountPartyMember(container, member, statCard) {
   const spriteEl = document.createElement("div");
   attackBtn.appendChild(spriteEl);
 
-  const nameEl = document.createElement("span");
-  nameEl.className = "party-member__name";
-  nameEl.textContent = member.name;
-
   const specialBtn = document.createElement("button");
   specialBtn.type = "button";
   specialBtn.className = "party-member__special";
