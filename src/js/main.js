@@ -1,19 +1,3 @@
-
-function mountSpriteFrame(container, frameDef) {
-  const el = document.createElement("div");
-  el.className = "sprite-frame sprite-loop";
-  el.style.setProperty("--frame-w", frameDef.frameW);
-  el.style.setProperty("--frame-h", frameDef.frameH);
-  el.style.setProperty("--frame-count", frameDef.frameCount);
-  el.style.width = `${frameDef.frameW}px`;
-  el.style.height = `${frameDef.frameH}px`;
-  el.style.backgroundImage = `url("${encodeURI(frameDef.sheet)}")`;
-  el.style.backgroundSize = `${frameDef.frameW * frameDef.frameCount}px ${frameDef.frameH}px`;
-  el.style.backgroundPositionY = `${-frameDef.row * frameDef.frameH}px`;
-  container.appendChild(el);
-  return el;
-}
-
 function resolveSheet(sheet) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -40,15 +24,29 @@ async function mountPartyMember(container, member) {
   container.appendChild(wrapper);
 
   const sheet = await resolveSheet(member.sheet);
-  return new SpriteCharacter(spriteEl, { sheet, scale: 2, facing: "right" });
+  return new SpriteCharacter(spriteEl, {
+    animations: animationsFromSheet(sheet),
+    scale: 2,
+    facing: "right",
+  });
+}
+
+function mountMonster(container, monster) {
+  const spriteEl = document.createElement("div");
+  container.appendChild(spriteEl);
+
+  return new SpriteCharacter(spriteEl, {
+    animations: animationsFromFiles(monster.sprite),
+    scale: 6,
+    facing: "left",
+  });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
   const monsterStage = document.getElementById("monster-stage");
-  mountSpriteFrame(monsterStage, MONSTER.sprite.idle);
+  window.monsterSprite = mountMonster(monsterStage, MONSTER);
 
   const rosterStage = document.getElementById("roster-stage");
   const partySprites = await Promise.all(PARTY.map((m) => mountPartyMember(rosterStage, m)));
   window.partySprites = Object.fromEntries(PARTY.map((m, i) => [m.id, partySprites[i]]));
 });
-

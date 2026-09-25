@@ -1,9 +1,7 @@
-
-
 const SHEET_LAYOUT = {
   frameWidth: 64,
   frameHeight: 64,
-  columns: 6, 
+  columns: 6,
   animations: {
     //         row  frames  fps  after finishing
     idle:    { row: 0, frames: 4, fps: 6,  end: 'loop' },
@@ -15,26 +13,57 @@ const SHEET_LAYOUT = {
   },
 };
 
+function animationsFromSheet(sheet, layout = SHEET_LAYOUT) {
+  const { frameWidth, frameHeight, columns, animations } = layout;
+  const sheetRows = Object.keys(animations).length;
+  const out = {};
+  for (const [name, a] of Object.entries(animations)) {
+    out[name] = {
+      sheet,
+      frameW: frameWidth,
+      frameH: frameHeight,
+      columns,
+      sheetRows,
+      row: a.row,
+      frames: a.frames,
+      fps: a.fps,
+      end: a.end,
+    };
+  }
+  return out;
+}
+
+function animationsFromFiles(defs) {
+  const out = {};
+  for (const [name, d] of Object.entries(defs)) {
+    out[name] = {
+      sheet: d.sheet,
+      frameW: d.frameW,
+      frameH: d.frameH,
+      columns: d.frameCount,
+      sheetRows: 1,
+      row: 0,
+      frames: d.frameCount,
+      fps: d.fps ?? 8,
+      end: d.end ?? 'idle',
+    };
+  }
+  return out;
+}
+
 class SpriteCharacter {
-  constructor(el, { sheet, scale = 4, facing = 'right', layout = SHEET_LAYOUT }) {
+  constructor(el, { animations, scale = 4, facing = 'right' }) {
     this.el = el;
-    this.layout = layout;
+    this.animations = animations;
     this.scale = Math.max(1, Math.round(scale));
     this.current = null;
     this.frame = 0;
     this.dead = false;
     this._raf = null;
     this._resolve = null;
+    this._loadedSheet = null;
 
-    const { frameWidth: fw, frameHeight: fh, columns } = layout;
-    const rows = Object.keys(layout.animations).length;
     el.classList.add('sprite');
-    Object.assign(el.style, {
-      width: `${fw * this.scale}px`,
-      height: `${fh * this.scale}px`,
-      backgroundImage: `url("${encodeURI(sheet)}")`,
-      backgroundSize: `${columns * fw * this.scale}px ${rows * fh * this.scale}px`,
-    });
     this.face(facing);
     this.play('idle');
   }
@@ -45,7 +74,7 @@ class SpriteCharacter {
   }
 
   play(name) {
-    const anim = this.layout.animations[name];
+    const anim = this.animations[name];
     if (!anim) throw new Error(`Unknown animation "${name}"`);
     if (this.dead && name !== 'idle') return Promise.resolve(); // revive() to reset
 
@@ -95,12 +124,22 @@ class SpriteCharacter {
   }
 
   _draw(anim) {
-    const { frameWidth: fw, frameHeight: fh } = this.layout;
-    const x = -this.frame * fw * this.scale;
-    const y = -anim.row * fh * this.scale;
+    if (this._loadedSheet !== anim.sheet) {
+      this._loadedSheet = anim.sheet;
+      Object.assign(this.el.style, {
+        width: `${anim.frameW * this.scale}px`,
+        height: `${anim.frameH * this.scale}px`,
+        backgroundImage: `url("${encodeURI(anim.sheet)}")`,
+        backgroundSize: `${anim.columns * anim.frameW * this.scale}px ${anim.sheetRows * anim.frameH * this.scale}px`,
+      });
+    }
+    const x = -this.frame * anim.frameW * this.scale;
+    const y = -anim.row * anim.frameH * this.scale;
     this.el.style.backgroundPosition = `${x}px ${y}px`;
   }
 }
 
-window.SpriteCharacter = SpriteCharacter;
 window.SHEET_LAYOUT = SHEET_LAYOUT;
+window.animationsFromSheet = animationsFromSheet;
+window.animationsFromFiles = animationsFromFiles;
+window.SpriteCharacter = SpriteCharacter;
