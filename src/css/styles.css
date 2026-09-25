@@ -37,6 +37,7 @@ body {
   border: 2px solid #4a4a66;
   border-radius: 8px;
   padding: 16px;
+  position: relative;
 }
 
 #monster-stage {
@@ -49,4 +50,109 @@ body {
   display: flex;
   gap: 16px;
   justify-content: center;
+}
+
+
+.stat-card {
+  position: absolute;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  color: #262637;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 150ms, transform 150ms, visibility 150ms;
+}
+
+.stat-card.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.stat-card__content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.stat-card__top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-card__profile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  background-size: 100% 100%;
+}
+
+.stat-card__portrait {
+  width: 62px;
+  height: 62px;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.stat-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.stat-card__name {
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-shadow: 1px 0 0 currentColor;
+}
+
+.stat-card__class {
+  color: #7a5c3e;
+}
+
+.stat-card__traits {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
+  justify-content: start;
+  column-gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat-card__plus {
+  color: #3e6b3a;
+}
+
+.stat-card__minus {
+  color: #9a3b3b;
+}
+
+.stat-card__stats {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat-card__stats b {
+  font-weight: normal;
+  color: #7a5c3e;
 }

@@ -10,7 +10,7 @@ function resolveSheet(sheet) {
   });
 }
 
-async function mountPartyMember(container, member) {
+async function mountPartyMember(container, member, statCard) {
   const wrapper = document.createElement("div");
   wrapper.className = "party-member";
   wrapper.dataset.id = member.id;
@@ -22,6 +22,7 @@ async function mountPartyMember(container, member) {
 
   wrapper.append(spriteEl, nameEl);
   container.appendChild(wrapper);
+  statCard.attach(wrapper, member);
 
   const sheet = await resolveSheet(member.sheet);
   return new SpriteCharacter(spriteEl, {
@@ -31,9 +32,10 @@ async function mountPartyMember(container, member) {
   });
 }
 
-function mountMonster(container, monster) {
+function mountMonster(container, monster, statCard) {
   const spriteEl = document.createElement("div");
   container.appendChild(spriteEl);
+  statCard.attach(spriteEl, monster);
 
   return new SpriteCharacter(spriteEl, {
     animations: animationsFromFiles(monster.sprite),
@@ -43,10 +45,12 @@ function mountMonster(container, monster) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const statCard = new StatCard(document.getElementById("battlefield"));
+
   const monsterStage = document.getElementById("monster-stage");
-  window.monsterSprite = mountMonster(monsterStage, MONSTER);
+  window.monsterSprite = mountMonster(monsterStage, MONSTER, statCard);
 
   const rosterStage = document.getElementById("roster-stage");
-  const partySprites = await Promise.all(PARTY.map((m) => mountPartyMember(rosterStage, m)));
+  const partySprites = await Promise.all(PARTY.map((m) => mountPartyMember(rosterStage, m, statCard)));
   window.partySprites = Object.fromEntries(PARTY.map((m, i) => [m.id, partySprites[i]]));
 });
