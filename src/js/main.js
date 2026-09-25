@@ -63,6 +63,7 @@ function mountMonster(container, monster, statCard) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const statCard = new StatCard(document.getElementById("battlefield"));
+  window.turnBanner = new TurnBanner(document.getElementById("turn-banner"));
 
   // Mount from gameState (not PARTY/MONSTER) so the stat card sees live HP.
   const monsterStage = document.getElementById("monster-stage");
