@@ -1,6 +1,13 @@
 .sprite {
+  position: relative;
   background-repeat: no-repeat;
   image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.sprite-hitbox {
+  position: absolute;
+  pointer-events: auto;
 }
 
 .party-member {

@@ -104,17 +104,23 @@ class StatCard {
     if (img) img.onerror = () => img.remove();
   }
 
-  // Centered above the target, kept inside the container.
+  // Centered above the target (it may extend above the container, up to the top
   _position(target) {
     const box = this.container.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
     const w = this.el.offsetWidth;
     const h = this.el.offsetHeight;
-    const left = rect.left - box.left + rect.width / 2 - w / 2;
-    const top = rect.top - box.top - h;
+    let left = rect.left - box.left + rect.width / 2 - w / 2;
+    const minTop = -box.top; // top of the window, in container coordinates
+    let top = rect.top - box.top - h;
+    if (top < minTop) {
+      left = rect.right - box.left;
+      top = rect.top - box.top + rect.height / 2 - h / 2;
+    }
     this.el.style.left = `${Math.max(0, Math.min(left, box.width - w))}px`;
-    this.el.style.top = `${Math.max(0, top)}px`;
+    this.el.style.top = `${Math.max(minTop, top)}px`;
   }
+
 }
 
 window.StatCard = StatCard;

@@ -43,18 +43,35 @@ function mountPartyMember(container, member, statCard) {
   return { sprite, hpBar };
 }
 
+const MONSTER_SCALE = 6;
+
 function mountMonster(container, monster, statCard) {
   const hpBarEl = document.createElement("div");
   const hpBar = new HpBar(hpBarEl, { variant: "monster", scale: 2 });
 
   const spriteEl = document.createElement("div");
 
+  const { x, y, width, height } = monster.body;
+  const frameH = monster.sprite.idle.frameH;
+  spriteEl.style.marginTop = `${-y * MONSTER_SCALE}px`;
+  spriteEl.style.marginBottom = `${-(frameH - y - height) * MONSTER_SCALE}px`;
+
+  const hitbox = document.createElement("div");
+  hitbox.className = "sprite-hitbox";
+  Object.assign(hitbox.style, {
+    left: `${x * MONSTER_SCALE}px`,
+    top: `${y * MONSTER_SCALE}px`,
+    width: `${width * MONSTER_SCALE}px`,
+    height: `${height * MONSTER_SCALE}px`,
+  });
+  spriteEl.appendChild(hitbox);
+
   container.append(hpBarEl, spriteEl);
-  statCard.attach(spriteEl, monster);
+  statCard.attach(hitbox, monster);
 
   const sprite = new SpriteCharacter(spriteEl, {
     animations: animationsFromFiles(monster.sprite),
-    scale: 6,
+    scale: MONSTER_SCALE,
     facing: "left",
   });
 
