@@ -12,7 +12,7 @@ const PARTY = [
     id: "fion",
     name: "Fion",
     className: "Marksman",
-    traits: { role: "", strengths: ["Leadership", "Communication"], weaknesses: ["Vulnerability"] },
+    traits: { role: "Vanguard", strengths: ["Leadership", "Communication"], weaknesses: ["Vulnerability"] },
     stats: { maxHp: 10, atk: 2, def: 1 },
     special: { name: "Attack Up", effect: "attackUp", amount: 1, cooldown: 2, anim: "attackUp", icon: specialIcon("fc1098") },
     sheet: charSheet("fion"),
