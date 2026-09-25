@@ -4,7 +4,7 @@ const STAT_CARD_SIZE = { width: 256, height: 160 };
 const STAT_CARD_TEXT_AREA = { x: 40, y: 41, width: 176, height: 78 };
 const STAT_CARD_SCALE = 1.5;
 const STAT_CARD_PROFILE_RING = "sprites/ui/Sprites/Content/5 Holders/2.png";
-const STAT_LABELS = { maxHp: "HP", atk: "ATK", def: "DEF", healAmount: "HEAL" };
+const STAT_LABELS = { maxHp: "HP", atk: "ATK", def: "DEF" };
 const STAT_CARD_PORTRAIT_SIZE = 62; 
 
 function portraitHtml(profile) {
@@ -21,9 +21,11 @@ function portraitHtml(profile) {
 }
 
 class StatCard {
-  constructor(container) {
+  constructor(container, { bonuses = () => ({}) } = {}) {
     this.container = container;
+    this.bonuses = bonuses;
     this.owner = null;
+    this.entity = null;
 
     const px = (n) => `${n * STAT_CARD_SCALE}px`;
 
@@ -56,9 +58,14 @@ class StatCard {
 
   show(target, entity) {
     this.owner = target;
+    this.entity = entity;
     this._fill(entity);
     this._position(target);
     this.el.classList.add("is-open");
+  }
+
+  refresh() {
+    if (this.owner) this._fill(this.entity);
   }
 
   hide(target) {
@@ -80,8 +87,14 @@ class StatCard {
            ${portraitHtml(entity.profile)}
          </div>`
       : "";
+    const bonuses = this.bonuses(entity);
     const statItems = Object.entries(stats)
-      .map(([key, value]) => `<li><b>${STAT_LABELS[key] ?? key}</b> ${value}</li>`)
+      .map(([key, value]) => {
+        const bonus = bonuses[key] ?? 0;
+        let shown = key === "maxHp" && entity.hp !== undefined ? `${entity.hp}/${value}` : value;
+        if (bonus > 0) shown = `${value + bonus} <span class="stat-card__bonus">(+${bonus})</span>`;
+        return `<li><b>${STAT_LABELS[key] ?? key}</b> ${shown}</li>`;
+      })
       .join("");
 
     this.content.innerHTML = `
@@ -100,17 +113,23 @@ class StatCard {
     if (img) img.onerror = () => img.remove();
   }
 
-  // Centered above the target, kept inside the container.
+  // Centered above the target (it may extend above the container, up to the top
   _position(target) {
     const box = this.container.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
     const w = this.el.offsetWidth;
     const h = this.el.offsetHeight;
-    const left = rect.left - box.left + rect.width / 2 - w / 2;
-    const top = rect.top - box.top - h;
+    let left = rect.left - box.left + rect.width / 2 - w / 2;
+    const minTop = -box.top; // top of the window, in container coordinates
+    let top = rect.top - box.top - h;
+    if (top < minTop) {
+      left = rect.right - box.left;
+      top = rect.top - box.top + rect.height / 2 - h / 2;
+    }
     this.el.style.left = `${Math.max(0, Math.min(left, box.width - w))}px`;
-    this.el.style.top = `${Math.max(0, top)}px`;
+    this.el.style.top = `${Math.max(minTop, top)}px`;
   }
+
 }
 
 window.StatCard = StatCard;

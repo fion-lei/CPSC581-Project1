@@ -20,8 +20,33 @@ body {
   padding: 16px;
 }
 
-#turn-banner {
-  text-align: center;
+.turn-banner {
+  position: relative;
+  width: 576px;
+  max-width: 100%;
+  aspect-ratio: 576 / 160;
+  margin: 0 auto 8px;
+}
+
+.turn-banner svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.turn-banner image {
+  image-rendering: pixelated;
+}
+
+.turn-banner text {
+  font-family: "Monogram", monospace;
+  fill: #0d9068;
+  /* Monogram has no bold face; a thin same-colour stroke thickens it */
+  stroke: #0d9068;
+  stroke-width: 1px;
+  text-anchor: middle;
+  dominant-baseline: central;
 }
 
 /* Placeholder battlefield backdrop until real background art is chosen */
@@ -42,7 +67,8 @@ body {
 
 #monster-stage {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 24px 0;
 }
 
