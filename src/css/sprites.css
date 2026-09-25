@@ -1,0 +1,14 @@
+.sprite {
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.party-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.party-member__name {
+  margin-top: 4px;
+}
