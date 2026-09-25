@@ -11,7 +11,8 @@ const PARTY = [
     name: "Fion",
     className: "Marksman",
     traits: { role: "", strengths: ["Leadership", "Communication"], weaknesses: ["Vulnerability"] },
-    stats: { maxHp: 5, atk: 1, def: 1, healAmount: 1 },
+    stats: { maxHp: 10, atk: 2, def: 1, healAmount: 1 },
+    special: { name: "Attack Up", effect: "attackUp", amount: 1, cooldown: 2, anim: "attackUp" },
     sheet: charSheet("fion"),
     profile: charProfile("fion")
   },
@@ -20,7 +21,8 @@ const PARTY = [
     name: "Wish",
     className: "Cleric Wizard",
     traits: { role: "Healer", strengths: ["Altruism", "Wisdom", "Morale"], weaknesses: ["Strength"] },
-    stats: { maxHp: 5, atk: 1, def: 1, healAmount: 1 },
+    stats: { maxHp: 10, atk: 1, def: 1, healAmount: 1 },
+    special: { name: "Group Heal", effect: "heal", amount: 2, cooldown: 2, anim: "heal" },
     sheet: charSheet("wish"),
     profile: charProfile("wish")
   },
@@ -29,7 +31,8 @@ const PARTY = [
     name: "Kevin",
     className: "Swordsman",
     traits: { role: "", strengths: ["X", "Y", "Z"], weaknesses: ["X"] },
-    stats: { maxHp: 5, atk: 1, def: 1, healAmount: 1 },
+    stats: { maxHp: 10, atk: 2, def: 1, healAmount: 1 },
+    special: { name: "Defense Up", effect: "defenseUp", amount: 1, cooldown: 2, anim: "defenseUp" },
     sheet: charSheet("kevin"),
     profile: charProfile("kevin")
   }
