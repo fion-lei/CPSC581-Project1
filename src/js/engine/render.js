@@ -38,6 +38,7 @@ function renderAll() {
   renderTurnBanner();
   gameState.party.forEach(renderPartyMember);
   renderMonster();
+  if (window.statCard) statCard.refresh();
 }
  
 window.renderAll = renderAll;
