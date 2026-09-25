@@ -4,8 +4,9 @@ const MONSTER = {
   id: "demon_a",
   name: "Demon",
   className: "Monster",
-  traits: { role: "Enemy", description: "A lesser demon guarding this floor." },
+  traits: { role: "Enemy", strengths: ["Hits hard", "Tough hide"], weaknesses: ["Fights alone"] },
   stats: { maxHp: 60, atk: 7, def: 1 },
+  profile: { sheet: `${MONSTER_SHEET_DIR}/Demon_A_Idle.png`, sheetWidth: 600, sheetHeight: 100, x: 37, y: 34, size: 31 },
   sprite: {
     idle:    { sheet: `${MONSTER_SHEET_DIR}/Demon_A_Idle.png`,     frameW: 100, frameH: 100, frameCount: 6, fps: 6,  end: 'loop' },
     walk:    { sheet: `${MONSTER_SHEET_DIR}/Demon_A_Walk.png`,     frameW: 100, frameH: 100, frameCount: 8, fps: 8,  end: 'loop' },
