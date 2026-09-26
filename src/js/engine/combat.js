@@ -18,7 +18,8 @@ function partyAttack(memberId) {
 
   return runAction(async () => {
     await partySprites[memberId].play("attack");
-    applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
+    const damage = applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
+    showCombatNumber(monsterSpriteEl, damage, "damage");
     member.acted = true;
     renderAll();
 
@@ -44,7 +45,9 @@ function partySpecial(memberId) {
   return runAction(async () => {
     const party = livingParty();
     await Promise.all(party.map((m) => partySprites[m.id].play(member.special.anim)));
-    applySpecial(member);
+    applySpecial(member).forEach(({ id, amount, type }) => {
+      showCombatNumber(partySpriteEls[id], amount, type);
+    });
   });
 }
 
@@ -69,8 +72,8 @@ async function monsterTurn() {
   const attackName = MONSTER_ATTACK_NAMES[Math.floor(Math.random() * MONSTER_ATTACK_NAMES.length)];
 
   await monsterSprite.play(attackName);
-  // Defense Up lowers the hit, but the demon always deals at least 1.
-  applyDamageToMember(target.id, Math.max(1, gameState.monster.stats.atk - gameState.buffs.def));
+  const damage = applyDamageToMember(target.id, gameState.monster.stats.atk);
+  showCombatNumber(partySpriteEls[target.id], damage, "damage");
   renderAll();
 
   await partySprites[target.id].play(target.alive ? "hurt" : "death");
@@ -80,6 +83,16 @@ async function monsterTurn() {
   renderAll();
 }
 
+function restartGame() {
+  if (gameState.busy || !gameState.gameOver) return;
+  resetGameState();
+  Object.values(partySprites).forEach((sprite) => sprite.revive());
+  monsterSprite.revive();
+
+  renderAll();
+}
+
 window.partyAttack = partyAttack;
 window.partySpecial = partySpecial;
 window.partyUseItem = partyUseItem;
+window.restartGame = restartGame;

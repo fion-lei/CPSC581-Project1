@@ -1,39 +1,40 @@
 <!doctype html>
 
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Battle Demo</title>
+        <link rel="stylesheet" href="src/css/styles.css" />
+        <link rel="stylesheet" href="src/css/sprites.css" />
+    </head>
+    <body>
+        <main id="app">
+            <h1 id="turn-banner"></h1>
+            <section id="battlefield">
+                <section id="monster-stage"></section>
+                <section id="roster-stage"></section>
+            </section>
+            <button id="restart-button" class="restart-button is-hidden"type="button">Restart</button>
+            <section id="console-stage"></section>
+            <!-- DEBUG: kill switches to demo death/HP; remove before release -->
+            <section id="debug-controls"></section>
+        </main>
 
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Battle Demo</title>
-    <link rel="stylesheet" href="src/css/styles.css" />
-    <link rel="stylesheet" href="src/css/sprites.css" />
-  </head>
-  <body>
-    <main id="app">
-      <h1 id="turn-banner"></h1>
-      <section id="battlefield">
-        <section id="monster-stage"></section>
-        <section id="roster-stage"></section>
-      </section>
-      <section id="console-stage"></section>
-    </main>
-
-    <script src="src/js/data/characters.js" defer></script>
-    <script src="src/js/data/monster.js" defer></script>
-    <script src="src/js/data/items.js" defer></script>
-    <script src="src/js/engine/sprite.js" defer></script>
-    <script src="src/js/engine/statcard.js" defer></script>
-    <script src="src/js/engine/turnbanner.js" defer></script>
-    <script src="src/js/engine/hpbar.js" defer></script>
-    <script src="src/js/engine/iconslot.js" defer></script>
-    <script src="src/js/engine/actionbar.js" defer></script>
-    <script src="src/js/engine/settings.js" defer></script>
-    <script src="src/js/engine/state.js" defer></script>
-    <script src="src/js/engine/combat.js" defer></script>
-    <script src="src/js/engine/render.js" defer></script>
-    <script src="src/js/main.js" defer></script>
-
-  </body>
-
+        <script src="src/js/data/characters.js" defer></script>
+        <script src="src/js/data/monster.js" defer></script>
+        <script src="src/js/data/items.js" defer></script>
+        <script src="src/js/engine/sprite.js" defer></script>
+        <script src="src/js/engine/statcard.js" defer></script>
+        <script src="src/js/engine/turnbanner.js" defer></script>
+        <script src="src/js/engine/hpbar.js" defer></script>
+        <script src="src/js/engine/iconslot.js" defer></script>
+        <script src="src/js/engine/actionbar.js" defer></script>
+        <script src="src/js/engine/settings.js" defer></script>
+        <script src="src/js/engine/state.js" defer></script>
+        <script src="src/js/engine/combatFeedback.js" defer></script>
+        <script src="src/js/engine/combat.js" defer></script>
+        <script src="src/js/engine/render.js" defer></script>
+        <script src="src/js/main.js" defer></script>
+    </body>
 </html>

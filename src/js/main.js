@@ -29,7 +29,7 @@ function mountPartyMember(container, member, statCard) {
     facing: "right",
   });
 
-  return { sprite, hpBar };
+  return { sprite, hpBar, anchor: spriteEl };
 }
 
 const MONSTER_SCALE = 6;
@@ -64,7 +64,7 @@ function mountMonster(container, monster, statCard) {
     facing: "left",
   });
 
-  return { sprite, hpBar };
+  return { sprite, hpBar, anchor: hitbox };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -81,11 +81,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const monsterMount = mountMonster(monsterStage, gameState.monster, statCard);
   window.monsterSprite = monsterMount.sprite;
   window.monsterHpBar = monsterMount.hpBar;
+  window.monsterSpriteEl = monsterMount.anchor;
 
   const rosterStage = document.getElementById("roster-stage");
   const partyMounts = gameState.party.map((m) => mountPartyMember(rosterStage, m, statCard));
   window.partySprites = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].sprite]));
   window.partyHpBars = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].hpBar]));
+  window.partySpriteEls = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].anchor]));
+
+  document.getElementById("restart-button").addEventListener("click", restartGame);
 
   renderAll();
 });
