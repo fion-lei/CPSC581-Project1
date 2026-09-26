@@ -7,13 +7,8 @@ const STAT_CARD_PROFILE_RING = "sprites/ui/Sprites/Content/5 Holders/2.png";
 const STAT_LABELS = { maxHp: "HP", atk: "ATK", def: "DEF" };
 const STAT_CARD_PORTRAIT_SIZE = 62; 
 
-const SPECIAL_TOOLTIP_CAPS = {
-  left: "sprites/ui/Sprites/Content/5 Holders/9.png",
-  middle: "sprites/ui/Sprites/Content/5 Holders/10.png",
-  right: "sprites/ui/Sprites/Content/5 Holders/11.png",
-};
-const SPECIAL_TOOLTIP_CAP_WIDTH = 10;
-const SPECIAL_TOOLTIP_SCALE = 2;
+const SPECIAL_HOLDER = "sprites/ui/Sprites/Content/5 Holders/6.png";
+const SPECIAL_PIN = "sprites/icons/Separated Files/64x64/fc12.png";
 
 function portraitHtml(profile) {
   if (typeof profile === "string") {
@@ -57,44 +52,23 @@ class StatCard {
     this.el.appendChild(this.content);
     container.appendChild(this.el);
 
-    this.specialTooltip = document.createElement("div");
-    this.specialTooltip.className = "special-tooltip";
-
-    const capWidth = `${SPECIAL_TOOLTIP_CAP_WIDTH * SPECIAL_TOOLTIP_SCALE}px`;
-    const capLeft = document.createElement("div");
-    capLeft.className = "special-tooltip__cap";
-    Object.assign(capLeft.style, {
-      width: capWidth,
-      backgroundImage: `url("${encodeURI(SPECIAL_TOOLTIP_CAPS.left)}")`,
-    });
-
-    const middle = document.createElement("div");
-    middle.className = "special-tooltip__middle";
-    middle.style.backgroundImage = `url("${encodeURI(SPECIAL_TOOLTIP_CAPS.middle)}")`;
+    // Holder for the special's icon, stamped with a pin; the description
+    // lives in the action bar's tooltip.
+    this.special = document.createElement("div");
+    this.special.className = "stat-card__special";
+    this.special.style.backgroundImage = `url("${encodeURI(SPECIAL_HOLDER)}")`;
     this.specialIcon = document.createElement("img");
-    this.specialIcon.className = "special-tooltip__icon";
+    this.specialIcon.className = "stat-card__special-icon";
     this.specialIcon.alt = "";
-    this.specialText = document.createElement("span");
-    this.specialText.className = "special-tooltip__text";
-    middle.append(this.specialIcon, this.specialText);
-
-    const capRight = document.createElement("div");
-    capRight.className = "special-tooltip__cap";
-    Object.assign(capRight.style, {
-      width: capWidth,
-      backgroundImage: `url("${encodeURI(SPECIAL_TOOLTIP_CAPS.right)}")`,
-    });
-
-    const tooltipPin = document.createElement("img");
-    tooltipPin.className = "special-tooltip__pin";
-    tooltipPin.src = "sprites/icons/Separated Files/64x64/fc12.png";
-    tooltipPin.alt = "";
-
-    this.specialTooltip.append(capLeft, middle, capRight, tooltipPin);
-    this.el.appendChild(this.specialTooltip);
+    const pin = document.createElement("img");
+    pin.className = "stat-card__special-pin";
+    pin.src = encodeURI(SPECIAL_PIN);
+    pin.alt = "";
+    this.special.append(this.specialIcon, pin);
+    this.el.appendChild(this.special);
   }
 
-  // Show `entity`'s card (and, if it has one, its special-ability tooltip)
+  // Show `entity`'s card (and, if it has one, its special-ability icon)
   // while the mouse is over `target`. One hover unit, no separate target needed.
   attach(target, entity) {
     target.addEventListener("mouseenter", () => this.show(target, entity));
@@ -123,14 +97,13 @@ class StatCard {
 
   _showSpecial(entity) {
     const special = entity.special;
-    if (!special?.description) return;
+    if (!special?.icon) return;
     this.specialIcon.src = encodeURI(special.icon);
-    this.specialText.textContent = special.description;
-    this.specialTooltip.classList.add("is-open");
+    this.special.classList.add("is-open");
   }
 
   _hideSpecial() {
-    this.specialTooltip.classList.remove("is-open");
+    this.special.classList.remove("is-open");
   }
 
   _fill(entity) {

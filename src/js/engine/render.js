@@ -36,6 +36,8 @@ function renderActionBar() {
   actionBar.setAbilities(
     gameState.party.map((member) => ({
       icon: member.special.icon,
+      tooltip: member.special.description,
+      tooltipName: member.name,
       badge: member.cooldown > 0 ? member.cooldown : "",
       onClick: () => partySpecial(member.id),
       disabled: !canUseSpecial(member),
@@ -45,6 +47,7 @@ function renderActionBar() {
   actionBar.setItems(
     gameState.items.map((item) => ({
       icon: item.icon,
+      tooltip: item.description,
       badge: item.count,
       onClick: () => partyUseItem(item.id),
       disabled: !canUseItemNow(item),

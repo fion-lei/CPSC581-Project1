@@ -183,19 +183,54 @@ body {
   color: #7a5c3e;
 }
 
+.stat-card__special {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  visibility: hidden;
+}
+
+.stat-card__special.is-open {
+  visibility: inherit;
+}
+
+.stat-card__special-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.stat-card__special-pin {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  image-rendering: pixelated;
+  transform: translateX(-50%) rotate(15deg);
+}
+
+
 .special-tooltip {
   position: absolute;
-  right: -20px;
-  bottom: 35px;
+  left: 50%;
+  /* bottom: 50%; */
+  top: 64%;
   display: flex;
   z-index: 11;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   color: #262637;
-  font-size: 14px;
-  line-height: 1;
-  transform: translateY(8px);
+  font-family: "Monogram", monospace;
+  transform: translate(-50%, 1.5cqi);
   transition: opacity 150ms, transform 150ms, visibility 150ms;
 }
 
@@ -205,24 +240,35 @@ body {
 }
 
 .special-tooltip__cap {
+  position: relative;
+  z-index: 1;
+  width: 4cqi;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   image-rendering: pixelated;
 }
 
-.special-tooltip__pin {
-  position: absolute;
-  top: -4px;
-  left: 50%;
-  width: 16px;
-  height: 16px;
+.special-tooltip__icon {
+  flex: none;
+  width: 5cqi;
+  height: 5cqi;
   image-rendering: pixelated;
 }
 
-.special-tooltip__icon {
-  width: 24px;
-  height: 24px;
-  image-rendering: pixelated;
+.special-tooltip__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.special-tooltip__name {
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-shadow: 1px 0 0 currentColor;
+}
+
+.special-tooltip__name:empty {
+  display: none;
 }
 
 .special-tooltip__text {
@@ -234,8 +280,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 180px;
-  padding: 8px 8px;
+  gap: 1cqi;
+  width: max-content;
+  max-width: 40cqi;
+  margin: 0 -1px;
+  padding: 3cqi 1cqi;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   image-rendering: pixelated;
@@ -297,9 +346,6 @@ body {
   width: 100%;
 }
  
-/* Reserves the rotated footprint (16 wide x 80 tall) in the flex row; the
-   image inside is centered and rotated visually so the layout box never
-   has to match a runtime-measured bar height. */
 .action-bar__divider {
   flex: none;
   align-self: stretch;
