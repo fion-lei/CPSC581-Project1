@@ -52,30 +52,294 @@ body {
 /* Placeholder battlefield backdrop until real background art is chosen */
 #battlefield {
   background:
+      /* Boss aura ring */
+    radial-gradient(
+      circle at 50% 135px,
+      transparent 0px,
+      transparent 85px,
+      rgba(165, 120, 215, 0.14) 87px,
+      rgba(165, 120, 215, 0.14) 90px,
+      transparent 93px
+    ),
+
+  /* Boss spotlight */
+    radial-gradient(
+      circle at 50% 135px,
+      rgba(165, 120, 215, 0.62) 0%,
+      rgba(110, 80, 160, 0.38) 12%,
+      rgba(70, 55, 110, 0.16) 25%,
+      transparent 39%
+    ),
+
     repeating-linear-gradient(
-      45deg,
-      #2c2c3d,
-      #2c2c3d 16px,
-      #34344a 16px,
-      #34344a 32px
+      135deg,
+      rgba(255, 255, 255, 0.022) 0px,
+      rgba(255, 255, 255, 0.022) 2px,
+      transparent 2px,
+      transparent 11px
+    ),
+
+    /* base arena colour */
+    linear-gradient(
+      to bottom,
+      #29283d 0%,
+      #302e46 53%,
+      #292633 59%,
+      #1c1b27 100%
     );
-  border: 2px solid #4a4a66;
-  border-radius: 8px;
-  padding: 16px;
-  position: relative;
+
+    /* Left character */
+    radial-gradient(
+      circle at 19% 57%,
+      rgba(120, 115, 150, 0.16) 0%,
+      transparent 19%
+    ),
+
+    /* Right character */
+    radial-gradient(
+    circle at 81% 57%,
+    rgba(120, 115, 150, 0.16) 0%,
+    transparent 19%
+    ),
+
+    /* Bottom character */
+    radial-gradient(
+      circle at 50% 75%,
+      rgba(120, 115, 150, 0.18) 0%,
+      transparent 20%
+    ),
+
+    /* Fine texture */
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.022) 0px,
+      rgba(255, 255, 255, 0.022) 2px,
+      transparent 2px,
+      transparent 11px
+    ),
+
+    /* Arena wall/floor */
+    linear-gradient(
+      to bottom,
+      #29283d 0%,
+      #302e46 53%,
+      #3a3546 55%,
+      #292633 59%,
+      #1c1b27 100%
+    );
+
+    border: 3px solid #706752;
+    border-radius: 6px;
+
+    outline: 2px solid #171622;
+    outline-offset: 2px;
+
+    position: relative;
+    height: 600px;
+    padding: 16px;
+
+    box-shadow:
+      inset 0 0 0 1px rgba(235, 220, 180, 0.10),
+      inset 0 0 65px rgba(7, 7, 16, 0.55),
+      0 5px 0 #15141f,
+      0 9px 18px rgba(0, 0, 0, 0.28);
+}
+
+/* Odd rows of the stone floor */
+#battlefield::before {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 46%;
+
+  border-radius: 0 0 4px 4px;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(170, 155, 130, 0.10) 0px,
+      rgba(170, 155, 130, 0.10) 2px,
+      transparent 2px,
+      transparent 48px
+    ),
+
+    repeating-linear-gradient(
+      90deg,
+      rgba(170, 155, 130, 0.07) 0px,
+      rgba(170, 155, 130, 0.07) 2px,
+      transparent 2px,
+      transparent 96px
+    ),
+
+    /* floor darkening */
+    linear-gradient(
+      to bottom,
+      rgba(25, 23, 34, 0.05),
+      rgba(8, 8, 14, 0.38)
+    );
+
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0px,
+    black 48px,
+    transparent 48px,
+    transparent 96px
+  );
+
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0px,
+    black 48px,
+    transparent 48px,
+    transparent 96px
+  );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* Even rows — shifted half a tile */
+#battlefield::after {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 46%;
+
+  border-radius: 0 0 4px 4px;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(170, 155, 130, 0.10) 0px,
+      rgba(170, 155, 130, 0.10) 2px,
+      transparent 2px,
+      transparent 48px
+    ),
+
+    repeating-linear-gradient(
+      90deg,
+      rgba(170, 155, 130, 0.07) 0px,
+      rgba(170, 155, 130, 0.07) 2px,
+      transparent 2px,
+      transparent 96px
+    ),
+
+    linear-gradient(
+      to bottom,
+      rgba(25, 23, 34, 0.05),
+      rgba(8, 8, 14, 0.38)
+    );
+
+  /* Offset Stone Positioning */
+  background-position:
+    0 0,
+    48px 0,
+    0 0;
+
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 48px,
+    black 48px,
+    black 96px
+  );
+
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 48px,
+    black 48px,
+    black 96px
+  );
+
+  pointer-events: none;
+  z-index: 0;
 }
 
 #monster-stage {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 0;
+
+  z-index: 2;
+}
+
+#monster-stage::after {
+  content: "";
+  position: absolute;
+
+  width: 150px;
+  height: 28px;
+
+  left: 50%;
+  top: 125px;
+  transform: translateX(-50%);
+
+  background: rgba(10, 8, 18, 0.35);
+  border-radius: 50%;
+  filter: blur(5px);
+
+  z-index: -1;
 }
 
 #roster-stage {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+}
+
+#roster-stage .party-member::before {
+  content: "";
+  position: absolute;
+
+  width: 78px;
+  height: 18px;
+
+  left: 50%;
+  top: 88px;
+  transform: translateX(-50%);
+
+  background: radial-gradient(
+    ellipse,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.22) 45%,
+    transparent 75%
+  );
+
+  pointer-events: none;
+}
+
+#roster-stage .party-member {
+  position: absolute;
+}
+
+#roster-stage .party-member:nth-child(1){
+  left: 12%;
+  top: 42%;
+}
+
+#roster-stage .party-member:nth-child(2){
+  left: 50%;
+  top: 58%;
+  transform: translateX(-50%);
+}
+
+#roster-stage .party-member:nth-child(3){
+  right: 12%;
+  top: 42%;
 }
 
 
