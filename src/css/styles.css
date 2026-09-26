@@ -52,70 +52,97 @@ body {
 /* Placeholder battlefield backdrop until real background art is chosen */
 #battlefield {
   background:
+      /* Boss aura ring */
+    radial-gradient(
+      circle at 50% 135px,
+      transparent 0px,
+      transparent 85px,
+      rgba(165, 120, 215, 0.14) 87px,
+      rgba(165, 120, 215, 0.14) 90px,
+      transparent 93px
+    ),
+
   /* Boss spotlight */
-  radial-gradient(
-    circle at 50% 21%,
-    rgba(165, 120, 215, 0.62) 0%,
-    rgba(110, 80, 160, 0.38) 12%,
-    rgba(70, 55, 110, 0.16) 25%,
-    transparent 39%
-  ),
+    radial-gradient(
+      circle at 50% 135px,
+      rgba(165, 120, 215, 0.62) 0%,
+      rgba(110, 80, 160, 0.38) 12%,
+      rgba(70, 55, 110, 0.16) 25%,
+      transparent 39%
+    ),
 
-  /* Left character */
-  radial-gradient(
-    circle at 19% 57%,
-    rgba(120, 115, 150, 0.16) 0%,
-    transparent 19%
-  ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.022) 0px,
+      rgba(255, 255, 255, 0.022) 2px,
+      transparent 2px,
+      transparent 11px
+    ),
 
-  /* Right character */
-  radial-gradient(
+    /* base arena colour */
+    linear-gradient(
+      to bottom,
+      #29283d 0%,
+      #302e46 53%,
+      #292633 59%,
+      #1c1b27 100%
+    );
+
+    /* Left character */
+    radial-gradient(
+      circle at 19% 57%,
+      rgba(120, 115, 150, 0.16) 0%,
+      transparent 19%
+    ),
+
+    /* Right character */
+    radial-gradient(
     circle at 81% 57%,
     rgba(120, 115, 150, 0.16) 0%,
     transparent 19%
-  ),
+    ),
 
-  /* Bottom character */
-  radial-gradient(
-    circle at 50% 75%,
-    rgba(120, 115, 150, 0.18) 0%,
-    transparent 20%
-  ),
+    /* Bottom character */
+    radial-gradient(
+      circle at 50% 75%,
+      rgba(120, 115, 150, 0.18) 0%,
+      transparent 20%
+    ),
 
-  /* Fine texture */
-  repeating-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.022) 0px,
-    rgba(255, 255, 255, 0.022) 2px,
-    transparent 2px,
-    transparent 11px
-  ),
+    /* Fine texture */
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.022) 0px,
+      rgba(255, 255, 255, 0.022) 2px,
+      transparent 2px,
+      transparent 11px
+    ),
 
-  /* Arena wall/floor */
-  linear-gradient(
-    to bottom,
-    #29283d 0%,
-    #302e46 53%,
-    #3a3546 55%,
-    #292633 59%,
-    #1c1b27 100%
-  );
+    /* Arena wall/floor */
+    linear-gradient(
+      to bottom,
+      #29283d 0%,
+      #302e46 53%,
+      #3a3546 55%,
+      #292633 59%,
+      #1c1b27 100%
+    );
 
-  border: 3px solid #706752;
-  border-radius: 6px;
+    border: 3px solid #706752;
+    border-radius: 6px;
 
-  outline: 2px solid #171622;
-  outline-offset: 2px;
+    outline: 2px solid #171622;
+    outline-offset: 2px;
 
-  position: relative;
-  height: 600px;
-  padding: 16px;
+    position: relative;
+    height: 600px;
+    padding: 16px;
 
-  box-shadow:
-    inset 0 0 0 1px rgba(235, 220, 180, 0.10),
-    inset 0 0 65px rgba(7, 7, 16, 0.55),
-    0 5px 0 #15141f,
-    0 9px 18px rgba(0, 0, 0, 0.28);
+    box-shadow:
+      inset 0 0 0 1px rgba(235, 220, 180, 0.10),
+      inset 0 0 65px rgba(7, 7, 16, 0.55),
+      0 5px 0 #15141f,
+      0 9px 18px rgba(0, 0, 0, 0.28);
 }
 
 /* Odd rows of the stone floor */
@@ -131,7 +158,6 @@ body {
   border-radius: 0 0 4px 4px;
 
   background:
-    /* horizontal seams */
     repeating-linear-gradient(
       to bottom,
       rgba(170, 155, 130, 0.10) 0px,
@@ -140,7 +166,6 @@ body {
       transparent 48px
     ),
 
-    /* vertical seams */
     repeating-linear-gradient(
       90deg,
       rgba(170, 155, 130, 0.07) 0px,
@@ -156,7 +181,6 @@ body {
       rgba(8, 8, 14, 0.38)
     );
 
-  /* Only show rows 1, 3, 5... */
   mask-image: repeating-linear-gradient(
     to bottom,
     black 0px,
@@ -213,13 +237,12 @@ body {
       rgba(8, 8, 14, 0.38)
     );
 
-  /* Shift the vertical seams by half a stone */
+  /* Offset Stone Positioning */
   background-position:
     0 0,
     48px 0,
     0 0;
 
-  /* Only show rows 2, 4, 6... */
   mask-image: repeating-linear-gradient(
     to bottom,
     transparent 0px,
