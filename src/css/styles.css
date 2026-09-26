@@ -187,25 +187,33 @@ body {
 }
 
 .combat-number {
-  position: absolute;
-  z-index: 15;
-  pointer-events: none;
-  font-size: 32px;
-  line-height: 1;
-  text-shadow:
-      2px 0 #1a1a2b,
-      -2px 0 #1a1a2b,
-      0 2px #1a1a2b,
-      0 -2px #1a1a2b;
-  animation: combat-number-float 1s ease-out forwards;
+    position: absolute;
+    z-index: 15;
+    pointer-events: none;
+    font-size: 32px;
+    line-height: 1;
+    text-shadow:
+        2px 0 #1a1a2b,
+        -2px 0 #1a1a2b,
+        0 2px #1a1a2b,
+        0 -2px #1a1a2b;
+    animation: combat-number-float 1s ease-out forwards;
 }
 
 .combat-number--damage {
-  color: #ff3b3b;
+    color: #ff3b3b;
 }
 
 .combat-number--heal {
-  color: #3bff6b;
+    color: #3bff6b;
+}
+
+.combat-number--defenseUp {
+    color: #3bcfff;
+}
+
+.combat-number--attackUp {
+    color: #ff9b3b;
 }
 
 @keyframes combat-number-float {
@@ -254,4 +262,3 @@ body {
 .restart-button[hidden] {
     display: none;
 }
-

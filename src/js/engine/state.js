@@ -90,14 +90,24 @@ function allActed() {
 
 function applySpecial(member) {
   const { effect, amount, cooldown } = member.special;
-  const heals = effect === "heal"
-    ? livingParty().map((m) => ({id: m.id, amount: applyHealToMember(m.id, amount)}))
-    : [];
-  if (effect === "attackUp") gameState.buffs.atk += amount;
-  if (effect === "defenseUp") gameState.buffs.def += amount;
+  let feedback = [];
+  if (effect === "heal") {
+    feedback = livingParty()
+      .map((m) => ({id: m.id, amount: applyHealToMember(m.id, amount), type: "heal"}))
+      .filter((f) => f.amount > 0);
+  }
+  if (effect === "defenseUp") {
+    gameState.buffs.def += amount;
+    feedback = livingParty().map((m) => ({id: m.id, amount, type: "defenseUp"}));
+  }
+  if (effect === "attackUp") {
+    gameState.buffs.atk += amount;
+    feedback = livingParty().map((m) => ({id: m.id, amount, type: "attackUp"}));
+  }
   member.cooldown = cooldown;
   gameState.specialUsed = true;
-  return heals;
+  
+  return feedback;
 }
 
 function applyHealToMember(id, amount) {

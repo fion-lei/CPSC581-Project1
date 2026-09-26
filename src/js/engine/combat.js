@@ -45,8 +45,8 @@ function partySpecial(memberId) {
   return runAction(async () => {
     const party = livingParty();
     await Promise.all(party.map((m) => partySprites[m.id].play(member.special.anim)));
-    applySpecial(member).forEach(({id, amount}) => {
-      showCombatNumber(partySpriteEls[id], amount, "heal");
+    applySpecial(member).forEach(({id, amount, type}) => {
+      showCombatNumber(partySpriteEls[id], amount, type);
     });
   });
 }
