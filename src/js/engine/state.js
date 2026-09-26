@@ -42,19 +42,27 @@ function livingParty() {
   return gameState.party.filter((m) => m.alive);
 }
 
+// Accounts for defense up buff, demon always deals at least 1 damage
+function damageDefenseUp(amount, def) {
+  return Math.max(1, amount - (def - 1));
+}
+
 function applyDamageToMonster(amount) {
-  gameState.monster.hp = Math.max(0, gameState.monster.hp - amount);
+  const damage = damageDefenseUp(amount, gameState.monster.stats.def);
+  gameState.monster.hp = Math.max(0, gameState.monster.hp - damage);
   if (gameState.monster.hp === 0) {
     gameState.monster.alive = false;
     gameState.gameOver = true;
     gameState.winner = "party";
   }
+  return damage;
 }
 
 function applyDamageToMember(id, amount) {
   const member = getPartyMember(id);
-  if (!member || !member.alive) return;
-  member.hp = Math.max(0, member.hp - amount);
+  if (!member || !member.alive) return 0;
+  const damage = damageDefenseUp(amount, member.stats.def + gameState.buffs.def);
+  member.hp = Math.max(0, member.hp - damage);
   if (member.hp === 0) {
     member.alive = false;
     if (livingParty().length === 0) {
@@ -62,6 +70,7 @@ function applyDamageToMember(id, amount) {
       gameState.winner = "monster";
     }
   }
+  return damage;
 }
 
 // A living character can attack once per party turn, and may use their special
@@ -81,17 +90,22 @@ function allActed() {
 
 function applySpecial(member) {
   const { effect, amount, cooldown } = member.special;
-  if (effect === "heal") livingParty().forEach((m) => applyHealToMember(m.id, amount));
+  const heals = effect === "heal"
+    ? livingParty().map((m) => ({id: m.id, amount: applyHealToMember(m.id, amount)}))
+    : [];
   if (effect === "attackUp") gameState.buffs.atk += amount;
   if (effect === "defenseUp") gameState.buffs.def += amount;
   member.cooldown = cooldown;
   gameState.specialUsed = true;
+  return heals;
 }
 
 function applyHealToMember(id, amount) {
   const member = getPartyMember(id);
-  if (!member || !member.alive) return;
+  if (!member || !member.alive) return 0;
+  const before = member.hp;
   member.hp = Math.min(member.stats.maxHp, member.hp + amount);
+  return member.hp - before;
 }
 
 function advanceTurn() {
