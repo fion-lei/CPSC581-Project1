@@ -19,22 +19,7 @@ function mountPartyMember(container, member, statCard) {
   const spriteEl = document.createElement("div");
   attackBtn.appendChild(spriteEl);
 
-  const specialBtn = document.createElement("button");
-  specialBtn.type = "button";
-  specialBtn.className = "party-member__special";
-  specialBtn.addEventListener("click", () => partySpecial(member.id));
-
-  const specialIcon = document.createElement("img");
-  specialIcon.className = "party-member__special-icon";
-  specialIcon.src = encodeURI(member.special.icon);
-  specialIcon.alt = "";
-
-  // Turns of cooldown left, shown over the icon (set by render.js)
-  const specialCooldown = document.createElement("span");
-  specialCooldown.className = "party-member__special-cooldown";
-  specialBtn.append(specialIcon, specialCooldown);
-
-  wrapper.append(hpBarEl, attackBtn, specialBtn);
+  wrapper.append(hpBarEl, attackBtn);
   container.appendChild(wrapper);
   statCard.attach(wrapper, member);
 
@@ -88,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     bonuses: (entity) => (gameState.party.includes(entity) ? gameState.buffs : {}),
   });
   window.turnBanner = new TurnBanner(document.getElementById("turn-banner"));
+  window.actionBar = new ActionBar().mount(document.getElementById("console-stage"));
 
   // Mount from gameState (not PARTY/MONSTER) so the stat card sees live HP.
   const monsterStage = document.getElementById("monster-stage");

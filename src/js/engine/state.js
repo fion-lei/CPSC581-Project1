@@ -15,6 +15,7 @@ function createInitialState() {
       hp: MONSTER.stats.maxHp,
       alive: true,
     },
+    items: ITEMS.map((item) => ({ ...item })), // shared party stash, live counts
     turn: "party",   // "party" | "monster"
     turnCount: 1,
     specialUsed: false,         // only one special ability per party turn
@@ -29,6 +30,10 @@ const gameState = createInitialState();
 
 function getPartyMember(id) {
   return gameState.party.find((m) => m.id === id);
+}
+
+function getItem(id) {
+  return gameState.items.find((i) => i.id === id);
 }
 
 function livingParty() {
@@ -68,6 +73,10 @@ function canUseSpecial(member) {
   return canAttack(member) && !gameState.specialUsed && member.cooldown === 0;
 }
 
+function canUseItemNow(item) {
+  return gameState.turn === "party" && !gameState.gameOver && !gameState.busy && item.count > 0;
+}
+
 function allActed() {
   return livingParty().every((m) => m.acted);
 }
@@ -85,6 +94,14 @@ function applyHealToMember(id, amount) {
   const member = getPartyMember(id);
   if (!member || !member.alive) return;
   member.hp = Math.min(member.stats.maxHp, member.hp + amount);
+}
+
+function consumeItem(id) {
+  const item = getItem(id);
+  if (!item || item.count <= 0) return false;
+  item.count -= 1;
+  livingParty().forEach((m) => applyHealToMember(m.id, item.healAmount));
+  return true;
 }
 
 function advanceTurn() {
@@ -106,12 +123,15 @@ function startPartyTurn() {
 
 window.gameState = gameState;
 window.getPartyMember = getPartyMember;
+window.getItem = getItem;
 window.livingParty = livingParty;
 window.applyDamageToMonster = applyDamageToMonster;
 window.applyDamageToMember = applyDamageToMember;
 window.applyHealToMember = applyHealToMember;
 window.canAttack = canAttack;
 window.canUseSpecial = canUseSpecial;
+window.canUseItemNow = canUseItemNow;
 window.allActed = allActed;
 window.applySpecial = applySpecial;
+window.consumeItem = consumeItem;
 window.advanceTurn = advanceTurn;

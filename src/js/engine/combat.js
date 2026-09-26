@@ -48,6 +48,17 @@ function partySpecial(memberId) {
   });
 }
 
+function partyUseItem(itemId) {
+  const item = getItem(itemId);
+  if (!item || !canUseItemNow(item)) return;
+
+  return runAction(async () => {
+    const party = livingParty();
+    await Promise.all(party.map((m) => partySprites[m.id].play("heal")));
+    consumeItem(itemId);
+  });
+}
+
 async function monsterTurn() {
   if (gameState.turn !== "monster" || gameState.gameOver) return;
 
@@ -71,3 +82,4 @@ async function monsterTurn() {
 
 window.partyAttack = partyAttack;
 window.partySpecial = partySpecial;
+window.partyUseItem = partyUseItem;

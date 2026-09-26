@@ -20,27 +20,47 @@ function renderPartyMember(member) {
   el.classList.toggle("is-dead", !member.alive);
   el.classList.toggle("has-acted", member.alive && member.acted);
   el.querySelector(".party-member__attack").disabled = !canAttack(member);
-
-  const special = el.querySelector(".party-member__special");
-  const label = member.cooldown > 0 ? `${member.special.name} (${member.cooldown})` : member.special.name;
-  special.title = label;
-  special.setAttribute("aria-label", label);
-  special.querySelector(".party-member__special-cooldown").textContent = member.cooldown || "";
-  special.disabled = !canUseSpecial(member);
 }
- 
+
 function renderMonster() {
   if (window.monsterHpBar) {
     monsterHpBar.setPct(gameState.monster.hp / gameState.monster.stats.maxHp);
   }
 }
- 
+
+// One shared ActionBar for the whole party: every member's special on the
+// left, the item stash on the right.
+function renderActionBar() {
+  if (!window.actionBar) return;
+
+  actionBar.setAbilities(
+    gameState.party.map((member) => ({
+      icon: member.special.icon,
+      tooltip: member.special.description,
+      tooltipName: member.name,
+      badge: member.cooldown > 0 ? member.cooldown : "",
+      onClick: () => partySpecial(member.id),
+      disabled: !canUseSpecial(member),
+    }))
+  );
+
+  actionBar.setItems(
+    gameState.items.map((item) => ({
+      icon: item.icon,
+      tooltip: item.description,
+      badge: item.count,
+      onClick: () => partyUseItem(item.id),
+      disabled: !canUseItemNow(item),
+    }))
+  );
+}
+
 function renderAll() {
   renderTurnBanner();
   gameState.party.forEach(renderPartyMember);
   renderMonster();
+  renderActionBar();
   if (window.statCard) statCard.refresh();
 }
- 
+
 window.renderAll = renderAll;
- 

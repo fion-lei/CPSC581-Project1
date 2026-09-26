@@ -7,6 +7,9 @@ const STAT_CARD_PROFILE_RING = "sprites/ui/Sprites/Content/5 Holders/2.png";
 const STAT_LABELS = { maxHp: "HP", atk: "ATK", def: "DEF" };
 const STAT_CARD_PORTRAIT_SIZE = 62; 
 
+const SPECIAL_HOLDER = "sprites/ui/Sprites/Content/5 Holders/6.png";
+const SPECIAL_PIN = "sprites/icons/Separated Files/64x64/fc12.png";
+
 function portraitHtml(profile) {
   if (typeof profile === "string") {
     return `<img class="stat-card__portrait" src="${encodeURI(profile)}" alt="">`;
@@ -48,9 +51,25 @@ class StatCard {
 
     this.el.appendChild(this.content);
     container.appendChild(this.el);
+
+    // Holder for the special's icon, stamped with a pin; the description
+    // lives in the action bar's tooltip.
+    this.special = document.createElement("div");
+    this.special.className = "stat-card__special";
+    this.special.style.backgroundImage = `url("${encodeURI(SPECIAL_HOLDER)}")`;
+    this.specialIcon = document.createElement("img");
+    this.specialIcon.className = "stat-card__special-icon";
+    this.specialIcon.alt = "";
+    const pin = document.createElement("img");
+    pin.className = "stat-card__special-pin";
+    pin.src = encodeURI(SPECIAL_PIN);
+    pin.alt = "";
+    this.special.append(this.specialIcon, pin);
+    this.el.appendChild(this.special);
   }
 
-  // Show `entity`'s card while the mouse is over `target`.
+  // Show `entity`'s card (and, if it has one, its special-ability icon)
+  // while the mouse is over `target`. One hover unit, no separate target needed.
   attach(target, entity) {
     target.addEventListener("mouseenter", () => this.show(target, entity));
     target.addEventListener("mouseleave", () => this.hide(target));
@@ -62,6 +81,7 @@ class StatCard {
     this._fill(entity);
     this._position(target);
     this.el.classList.add("is-open");
+    this._showSpecial(entity);
   }
 
   refresh() {
@@ -72,6 +92,18 @@ class StatCard {
     if (this.owner !== target) return;
     this.owner = null;
     this.el.classList.remove("is-open");
+    this._hideSpecial();
+  }
+
+  _showSpecial(entity) {
+    const special = entity.special;
+    if (!special?.icon) return;
+    this.specialIcon.src = encodeURI(special.icon);
+    this.special.classList.add("is-open");
+  }
+
+  _hideSpecial() {
+    this.special.classList.remove("is-open");
   }
 
   _fill(entity) {
