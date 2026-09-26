@@ -100,5 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.partySprites = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].sprite]));
   window.partyHpBars = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].hpBar]));
 
+  initDebugControls();
   renderAll();
 });

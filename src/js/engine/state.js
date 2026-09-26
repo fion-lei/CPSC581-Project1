@@ -5,6 +5,7 @@ function createInitialState() {
   return {
     party: PARTY.map((member) => ({
       ...member,
+      stats: {...member.stats },
       hp: member.stats.maxHp,
       alive: true,
       acted: false,  // attacked this party turn
@@ -12,6 +13,7 @@ function createInitialState() {
     })),
     monster: {
       ...MONSTER,
+      stats: {...MONSTER.stats },
       hp: MONSTER.stats.maxHp,
       alive: true,
     },
@@ -103,6 +105,41 @@ function startPartyTurn() {
     m.cooldown = Math.max(0, m.cooldown - 1);
   });
 }
+
+function resetGameState() {
+  const fresh = createInitialState();
+
+  gameState.party.forEach((member) => {
+    const initial = fresh.party.find((m) => m.id === member.id);
+    if (!initial) return;
+
+    Object.assign(member, initial);
+    member.stats = { ...initial.stats };
+  });
+
+  Object.assign(gameState.monster, fresh.monster);
+  gameState.monster.stats = { ...fresh.monster.stats };
+
+  gameState.turn = fresh.turn;
+  gameState.turnCount = fresh.turnCount;
+  gameState.specialUsed = fresh.specialUsed;
+  gameState.buffs = { ...fresh.buffs };
+  gameState.busy = fresh.busy;
+  gameState.gameOver = fresh.gameOver;
+  gameState.winner = fresh.winner;
+
+  if (window.monsterSprite) {
+    monsterSprite.play("idle");
+  }
+
+  if (window.partySprites) {
+    Object.values(partySprites).forEach((sprite) => sprite.play("idle"));
+  }
+
+  renderAll();
+}
+
+window.resetGameState = resetGameState;
 
 window.gameState = gameState;
 window.getPartyMember = getPartyMember;

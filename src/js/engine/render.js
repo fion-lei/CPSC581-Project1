@@ -40,6 +40,9 @@ function renderAll() {
   gameState.party.forEach(renderPartyMember);
   renderMonster();
   if (window.statCard) statCard.refresh();
+  if (window.refreshDebugControls) {
+    window.refreshDebugControls();
+  }
 }
  
 window.renderAll = renderAll;
