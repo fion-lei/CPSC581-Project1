@@ -1,3 +1,5 @@
+let debugPanel = null;
+
 function initDebugControls() {
   const container = document.getElementById("debug-controls");
   if (!container) return;
@@ -8,24 +10,40 @@ function initDebugControls() {
   toggle.textContent = "Debug";
   toggle.setAttribute("aria-expanded", "false");
 
-  const panel = document.createElement("div");
-  panel.id = "debug-panel";
-  panel.hidden = true;
+  debugPanel = document.createElement("div");
+  debugPanel.id = "debug-panel";
+  debugPanel.hidden = true;
 
   toggle.addEventListener("click", () => {
-    const opening = panel.hidden;
+    const opening = debugPanel.hidden;
 
-    panel.hidden = !opening;
+    debugPanel.hidden = !opening;
     toggle.setAttribute("aria-expanded", String(opening));
     toggle.textContent = opening ? "Close Debug" : "Debug";
 
     if (opening) {
-      renderDebugPanel(panel);
+      renderDebugPanel(debugPanel);
     }
   });
 
-  container.append(toggle, panel);
+  container.append(toggle, debugPanel);
 }
+
+function refreshDebugControls() {
+  if (!debugPanel || debugPanel.hidden) return;
+
+  renderDebugPanel(debugPanel);
+}
+
+window.refreshDebugControls = refreshDebugControls;
+
+function refreshDebugControls() {
+  if (!debugPanel || debugPanel.hidden) return;
+
+  renderDebugPanel(debugPanel);
+}
+
+window.refreshDebugControls = refreshDebugControls;
 
 
 function renderDebugPanel(panel) {
@@ -85,7 +103,7 @@ function createPartyControls(member, panel) {
   card.appendChild(
     createStatControl(
       "ATK",
-      () => member.stats.atk,
+      () => formatBuffedStat(member.stats.atk, gameState.buffs.atk),
       () => {
         member.stats.atk = Math.max(0, member.stats.atk - 1);
       },
@@ -99,7 +117,7 @@ function createPartyControls(member, panel) {
   card.appendChild(
     createStatControl(
       "DEF",
-      () => member.stats.def,
+      () => formatBuffedStat(member.stats.def, gameState.buffs.def),
       () => {
         member.stats.def = Math.max(0, member.stats.def - 1);
       },
@@ -131,13 +149,13 @@ function createPartyControls(member, panel) {
     createActionButton("Full HP", () => {
       member.hp = member.stats.maxHp;
       syncBattleState();
-      refreshDebug(panel);
+      refreshDebug();
     }),
 
     createActionButton("KO", () => {
       member.hp = 0;
       syncBattleState();
-      refreshDebug(panel);
+      refreshDebug();
     }),
 
     createActionButton("Revive", () => {
@@ -146,15 +164,15 @@ function createPartyControls(member, panel) {
       }
 
       syncBattleState();
-      refreshDebug(panel);
+      refreshDebug();
     }),
 
     createActionButton("Ready", () => {
       member.acted = false;
       member.cooldown = 0;
       gameState.specialUsed = false;
-      
-      refreshDebug(panel);
+
+      refreshDebug();
     })
   );
 
@@ -219,13 +237,13 @@ function createMonsterControls(monster, panel) {
     createActionButton("Full HP", () => {
       monster.hp = monster.stats.maxHp;
       syncBattleState();
-      refreshDebug(panel);
+      refreshDebug();
     }),
 
     createActionButton("KO", () => {
       monster.hp = 0;
       syncBattleState();
-      refreshDebug(panel);
+      refreshDebug();
     })
   );
 
@@ -270,12 +288,12 @@ function createStatControl(label, getValue, decrease, increase, panel) {
 
   minus.addEventListener("click", () => {
     decrease();
-    refreshDebug(panel);
+    refreshDebug();
   });
 
   plus.addEventListener("click", () => {
     increase();
-    refreshDebug(panel);
+    refreshDebug();
   });
 
   row.append(name, minus, value, plus);
@@ -293,10 +311,19 @@ function createActionButton(label, action) {
   return button;
 }
 
+function formatBuffedStat(base, bonus) {
+  const total = base + bonus;
 
-function refreshDebug(panel) {
+  if (bonus > 0) {
+    return `${total} (${base}+${bonus})`;
+  }
+
+  return `${total}`;
+}
+
+
+function refreshDebug() {
   renderAll();
-  renderDebugPanel(panel);
 }
 
 
