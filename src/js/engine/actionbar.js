@@ -1,6 +1,7 @@
 const ACTION_BAR_BG = "sprites/ui/Sprites/Paper UI Pack/Plain/3 Item Holder/1.png";
 const ACTION_BAR_BG_SIZE = { width: 592, height: 144 };
 const ACTION_BAR_DIVIDER = "sprites/ui/Sprites/Content/5 Holders/20.png";
+const ACTION_BAR_UNDERLINE = "sprites/ui/Sprites/Content/5 Holders/19.png";
 
 class ActionBar {
   constructor() {
@@ -33,9 +34,13 @@ class ActionBar {
     const title = document.createElement("span");
     title.className = "action-bar__title";
     title.textContent = label;
+    const underline = document.createElement("img");
+    underline.className = "action-bar__underline";
+    underline.src = encodeURI(ACTION_BAR_UNDERLINE);
+    underline.alt = "";
     const row = document.createElement("div");
     row.className = "action-bar__row";
-    col.append(title, row);
+    col.append(title, underline, row);
     return [col, row];
   }
 
