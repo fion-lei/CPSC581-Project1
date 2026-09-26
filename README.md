@@ -2,8 +2,7 @@
 
 https://fion-lei.github.io/CPSC581-Project1/
 
-
-Sprites from: 
+Sprites from:
 https://erisesra.itch.io/character-templates-pack
 https://channeechan.itch.io/erisesra-character-template-animation-add-on
 https://clockworkraven.itch.io/raven-fantasy-icons
@@ -13,3 +12,6 @@ https://admurin.itch.io/free-chest-animations
 
 Font from:
 https://datagoblin.itch.io/monogram
+
+Sounds effects from:
+https://pixabay.com/sound-effects/
