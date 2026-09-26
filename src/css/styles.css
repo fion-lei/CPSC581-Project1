@@ -183,9 +183,10 @@ body {
   color: #7a5c3e;
 }
 
-/* Optional controls debugging */
+/* ---------- Debug Controls ---------- */
+
 #debug-controls {
-  margin-top: 12px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -194,17 +195,153 @@ body {
 
 #debug-toggle {
   padding: 8px 14px;
+  border: 2px solid #706752;
+  border-radius: 4px;
+
+  background: #2c2b3f;
+  color: #f0e3c5;
+
   font: inherit;
   cursor: pointer;
 }
 
+#debug-toggle:hover {
+  background: #3a384e;
+}
+
 #debug-panel {
   width: 100%;
+  box-sizing: border-box;
   padding: 16px;
+
   border: 2px solid #706752;
+  border-radius: 6px;
+
   background: #242336;
+  color: #f0e3c5;
 }
 
 #debug-panel[hidden] {
   display: none;
+}
+
+#debug-panel > h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+
+/* Party cards */
+
+.debug-entity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.debug-entity {
+  padding: 12px;
+
+  border: 1px solid #5f5a78;
+  border-radius: 5px;
+
+  background: #2d2c40;
+}
+
+.debug-entity h3 {
+  margin: 0 0 10px;
+  text-align: center;
+  color: #f0e3c5;
+}
+
+
+/* Demon */
+
+.debug-entity--monster {
+  margin-top: 12px;
+  border-color: #81765f;
+}
+
+
+/* Stat rows */
+
+.debug-stat {
+  display: grid;
+  grid-template-columns: 78px 32px 76px 32px;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 7px;
+}
+
+.debug-stat__label {
+  color: #d7d0c3;
+}
+
+.debug-stat__value {
+  text-align: center;
+  color: #ffffff;
+}
+
+
+/* Buttons */
+
+.debug-stat button,
+.debug-shortcuts button,
+.debug-actions button {
+  min-height: 30px;
+
+  border: 1px solid #81765f;
+  border-radius: 3px;
+
+  background: #37354a;
+  color: #f0e3c5;
+
+  font: inherit;
+  cursor: pointer;
+}
+
+.debug-stat button:hover,
+.debug-shortcuts button:hover,
+.debug-actions button:hover {
+  background: #4a475f;
+}
+
+.debug-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  margin-top: 10px;
+}
+
+.debug-shortcuts button {
+  padding: 5px 8px;
+}
+
+
+/* Bottom actions */
+
+.debug-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 14px;
+}
+
+.debug-actions button {
+  padding: 8px 14px;
+}
+
+
+/* Smaller screens */
+
+@media (max-width: 850px) {
+  .debug-entity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .debug-stat {
+    grid-template-columns: 78px 32px 1fr 32px;
+  }
 }
