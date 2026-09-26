@@ -52,18 +52,46 @@ body {
 /* Placeholder battlefield backdrop until real background art is chosen */
 #battlefield {
   background:
-    repeating-linear-gradient(
-      45deg,
-      #2c2c3d,
-      #2c2c3d 16px,
-      #34344a 16px,
-      #34344a 32px
-    );
+  /* Strong focus behind boss */
+  radial-gradient(
+    circle at 50% 22%,
+    rgba(150, 110, 190, 0.42) 0%,
+    rgba(100, 75, 145, 0.28) 16%,
+    rgba(65, 55, 100, 0.12) 30%,
+    transparent 43%
+  ),
+
+  /* Darkens the outside edges */
+  radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(12, 12, 22, 0.45) 100%
+  ),
+
+  /* Subtle texture running across battlefield */
+  repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.018) 0px,
+    rgba(255, 255, 255, 0.018) 2px,
+    transparent 2px,
+    transparent 12px
+  ),
+
+  /* Wall / floor separation */
+  linear-gradient(
+    to bottom,
+    #29283d 0%,
+    #302e46 54%,
+    #413a4b 55%,
+    #292633 58%,
+    #1c1b27 100%
+  );
+
   border: 2px solid #4a4a66;
   border-radius: 8px;
-  padding: 16px;
   position: relative;
   height: 600px;
+  padding: 16px;
 }
 
 #monster-stage {
@@ -75,6 +103,24 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#monster-stage::after {
+  content: "";
+  position: absolute;
+
+  width: 150px;
+  height: 28px;
+
+  left: 50%;
+  top: 125px;
+  transform: translateX(-50%);
+
+  background: rgba(10, 8, 18, 0.35);
+  border-radius: 50%;
+  filter: blur(5px);
+
+  z-index: -1;
 }
 
 #roster-stage {

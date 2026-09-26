@@ -31,10 +31,21 @@ const PARTY = [
   {
     id: "kevin",
     name: "Kevin",
-    className: "Swordsman",
-    traits: { role: "", strengths: ["X", "Y", "Z"], weaknesses: ["X"] },
+    className: "Artificer/Rogue",
+    traits: {
+    role: "Smith",
+    strengths: ["Analysis", "Mobility", "Communication"],
+    weaknesses: ["Strength"]
+    },
     stats: { maxHp: 10, atk: 2, def: 1 },
-    special: { name: "Defense Up", effect: "defenseUp", amount: 1, cooldown: 2, anim: "defenseUp", icon: specialIcon("fc1099") },
+    special: {
+    name: "Defense Up",
+    effect: "defenseUp",
+    amount: 1,
+    cooldown: 2,
+    anim: "defenseUp",
+    icon: specialIcon("fc1099")
+    },
     sheet: charSheet("kevin"),
     profile: charProfile("kevin")
   }
