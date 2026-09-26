@@ -385,8 +385,8 @@ body {
  
 .icon-slot__icon {
   position: absolute;
-  left: 25%;
-  top: 25%;
+  inset: 0;
+  margin: auto;
   width: 60%;
   height: 60%;
   image-rendering: pixelated;
