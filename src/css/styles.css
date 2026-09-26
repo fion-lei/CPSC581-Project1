@@ -42,7 +42,6 @@ body {
 .turn-banner text {
   font-family: "Monogram", monospace;
   fill: #0d9068;
-  /* Monogram has no bold face; a thin same-colour stroke thickens it */
   stroke: #0d9068;
   stroke-width: 1px;
   text-anchor: middle;
