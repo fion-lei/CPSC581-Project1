@@ -17,6 +17,7 @@ function partyAttack(memberId) {
   if (!member || !canAttack(member)) return;
 
   return runAction(async () => {
+    playSound("attack");
     await partySprites[memberId].play("attack");
     const damage = applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
     showCombatNumber(monsterSpriteEl, damage, "damage");
@@ -43,6 +44,7 @@ function partySpecial(memberId) {
   if (!member || !canUseSpecial(member)) return;
 
   return runAction(async () => {
+    playSound(soundForSpecial(member.special.effect));
     const party = livingParty();
     await Promise.all(party.map((m) => partySprites[m.id].play(member.special.anim)));
     applySpecial(member).forEach(({ id, amount, type }) => {
@@ -56,6 +58,7 @@ function partyUseItem(itemId) {
   if (!item || !canUseItemNow(item)) return;
 
   return runAction(async () => {
+    playSound("heal");
     const party = livingParty();
     await Promise.all(party.map((m) => partySprites[m.id].play("heal")));
     consumeItem(itemId).forEach(({id, amount, type}) => {
@@ -73,6 +76,7 @@ async function monsterTurn() {
   const target = targets[Math.floor(Math.random() * targets.length)];
   const attackName = MONSTER_ATTACK_NAMES[Math.floor(Math.random() * MONSTER_ATTACK_NAMES.length)];
 
+  playSound("attack");
   await monsterSprite.play(attackName);
   const damage = applyDamageToMember(target.id, gameState.monster.stats.atk);
   showCombatNumber(partySpriteEls[target.id], damage, "damage");
