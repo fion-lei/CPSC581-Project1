@@ -15,6 +15,7 @@ function createInitialState() {
       hp: MONSTER.stats.maxHp,
       alive: true,
     },
+    items: ITEMS.map((item) => ({ ...item })), // shared party stash, live counts
     turn: "party",   // "party" | "monster"
     turnCount: 1,
     specialUsed: false,         // only one special ability per party turn
@@ -29,6 +30,10 @@ const gameState = createInitialState();
 
 function getPartyMember(id) {
   return gameState.party.find((m) => m.id === id);
+}
+
+function getItem(id) {
+  return gameState.items.find((i) => i.id === id);
 }
 
 function livingParty() {
@@ -66,6 +71,10 @@ function canAttack(member) {
 
 function canUseSpecial(member) {
   return canAttack(member) && !gameState.specialUsed && member.cooldown === 0;
+}
+
+function canUseItemNow(item) {
+  return gameState.turn === "party" && !gameState.gameOver && !gameState.busy && item.count > 0;
 }
 
 function allActed() {
