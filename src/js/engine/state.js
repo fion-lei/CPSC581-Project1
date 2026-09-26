@@ -131,8 +131,9 @@ function consumeItem(id) {
   const item = getItem(id);
   if (!item || item.count <= 0) return false;
   item.count -= 1;
-  livingParty().forEach((m) => applyHealToMember(m.id, item.healAmount));
-  return true;
+  return livingParty()
+    .map((m) => ({id: m.id, amount: applyHealToMember(m.id, item.healAmount), type: "heal"}))
+    .filter((f) => f.amount > 0);
 }
 
 function advanceTurn() {

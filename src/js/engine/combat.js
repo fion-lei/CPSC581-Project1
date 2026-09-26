@@ -58,7 +58,9 @@ function partyUseItem(itemId) {
   return runAction(async () => {
     const party = livingParty();
     await Promise.all(party.map((m) => partySprites[m.id].play("heal")));
-    consumeItem(itemId);
+    consumeItem(itemId).forEach(({id, amount, type}) => {
+      showCombatNumber(partySpriteEls[id], amount, type)
+    });
   });
 }
 
