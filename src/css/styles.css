@@ -63,19 +63,43 @@ body {
   border-radius: 8px;
   padding: 16px;
   position: relative;
+  height: 600px;
 }
 
 #monster-stage {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 0;
 }
 
 #roster-stage {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
+  position: absolute;
+  inset: 0;
+}
+
+#roster-stage .party-member {
+  position: absolute;
+}
+
+#roster-stage .party-member:nth-child(1){
+  left: 12%;
+  top: 42%;
+}
+
+#roster-stage .party-member:nth-child(2){
+  left: 50%;
+  top: 58%;
+  transform: translateX(-50%);
+}
+
+#roster-stage .party-member:nth-child(3){
+  right: 12%;
+  top: 42%;
 }
 
 
