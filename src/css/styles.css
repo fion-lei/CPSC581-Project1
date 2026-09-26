@@ -250,15 +250,15 @@ body {
  
 .action-bar {
   position: relative;
+  container-type: inline-size;
   width: 100%;
-  max-width: 592px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   image-rendering: pixelated;
   display: flex;
   align-items: center;
   gap: 4%;
-  padding: 6% 8%;
+  padding: 7.4% 8%;
 }
  
 .action-bar__section {
@@ -267,14 +267,26 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 0.6cqi;
 }
  
 .action-bar__title {
   font-family: "Monogram", monospace;
-  font-size: 16px;
-  color: #3e6b3a;
+  font-size: 3.8cqi;
+  line-height: 0.7;
+  letter-spacing: 0.05em;
+  color: #0d9068;
+  -webkit-text-stroke: 0.05em currentColor;
+  paint-order: stroke fill;
   text-align: center;
+  text-transform: uppercase;
+}
+
+.action-bar__underline {
+  width: 16cqi;
+  height: auto;
+  margin-top: -1cqi;
+  image-rendering: pixelated;
 }
  
 .action-bar__row {
@@ -291,7 +303,7 @@ body {
 .action-bar__divider {
   flex: none;
   align-self: stretch;
-  width: 16px;
+  width: 3cqi;
   position: relative;
 }
  
@@ -299,8 +311,8 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80px;
-  height: 16px;
+  width: 12cqi;
+  height: 2.4cqi;
   image-rendering: pixelated;
   transform: translate(-50%, -50%) rotate(90deg);
 }
@@ -309,7 +321,7 @@ body {
   position: relative;
   container-type: inline-size;
   flex: 1 1 0;
-  max-width: min(48px, calc((100% - 16%) / 3));
+  max-width: min(7cqi, calc((100% - 16%) / 3));
   aspect-ratio: 1 / 1;
   padding: 0;
   border: 0;
@@ -319,7 +331,6 @@ body {
   background-size: 100% 100%;
   image-rendering: pixelated;
   appearance: none;
-  -webkit-appearance: none;
 }
  
 .icon-slot:disabled {
@@ -330,8 +341,8 @@ body {
   position: absolute;
   left: 25%;
   top: 25%;
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: 60%;
   image-rendering: pixelated;
 }
  
@@ -358,9 +369,7 @@ body {
 .icon-slot__badge:empty {
   display: none;
 }
- 
-/* Half the slot's size (matches the icon), offset outward by half of that
-   so it frames the slot's edge instead of overlapping the art. */
+
 .icon-slot__corner {
   position: absolute;
   width: 50%;
