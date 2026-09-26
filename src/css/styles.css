@@ -52,40 +52,58 @@ body {
 /* Placeholder battlefield backdrop until real background art is chosen */
 #battlefield {
   background:
-  /* Strong focus behind boss */
+  /* Boss spotlight */
   radial-gradient(
-    circle at 50% 22%,
-    rgba(150, 110, 190, 0.42) 0%,
-    rgba(100, 75, 145, 0.28) 16%,
-    rgba(65, 55, 100, 0.12) 30%,
-    transparent 43%
+  circle at 50% 21%,
+  rgba(165, 120, 215, 0.62) 0%,
+  rgba(110, 80, 160, 0.38) 12%,
+  rgba(70, 55, 110, 0.16) 25%,
+  transparent 39%
+),
+
+  /* Left character */
+  radial-gradient(
+    circle at 19% 57%,
+    rgba(120, 115, 150, 0.16) 0%,
+    transparent 19%
   ),
 
-  /* Darkens the outside edges */
+  /* Right character */
   radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    rgba(12, 12, 22, 0.45) 100%
+    circle at 81% 57%,
+    rgba(120, 115, 150, 0.16) 0%,
+    transparent 19%
   ),
 
-  /* Subtle texture running across battlefield */
+  /* Bottom character */
+  radial-gradient(
+    circle at 50% 75%,
+    rgba(120, 115, 150, 0.18) 0%,
+    transparent 20%
+  ),
+
+  /* Fine texture */
   repeating-linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.018) 0px,
-    rgba(255, 255, 255, 0.018) 2px,
+    rgba(255, 255, 255, 0.022) 0px,
+    rgba(255, 255, 255, 0.022) 2px,
     transparent 2px,
-    transparent 12px
+    transparent 11px
   ),
 
-  /* Wall / floor separation */
+  /* Arena wall/floor */
   linear-gradient(
     to bottom,
     #29283d 0%,
-    #302e46 54%,
-    #413a4b 55%,
-    #292633 58%,
+    #302e46 53%,
+    #3a3546 55%,
+    #292633 59%,
     #1c1b27 100%
   );
+
+  box-shadow:
+    inset 0 0 80px rgba(8, 8, 18, 0.65),
+    0 0 12px rgba(0, 0, 0, 0.25);
 
   border: 2px solid #4a4a66;
   border-radius: 8px;
@@ -126,6 +144,27 @@ body {
 #roster-stage {
   position: absolute;
   inset: 0;
+}
+
+#roster-stage .party-member::before {
+  content: "";
+  position: absolute;
+
+  width: 78px;
+  height: 18px;
+
+  left: 50%;
+  top: 88px;
+  transform: translateX(-50%);
+
+  background: radial-gradient(
+    ellipse,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.22) 45%,
+    transparent 75%
+  );
+
+  pointer-events: none;
 }
 
 #roster-stage .party-member {
