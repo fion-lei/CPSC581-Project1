@@ -13,5 +13,5 @@ https://admurin.itch.io/free-chest-animations
 Font from:
 https://datagoblin.itch.io/monogram
 
-Sounds effects from:
+Sound effects from:
 https://pixabay.com/sound-effects/
