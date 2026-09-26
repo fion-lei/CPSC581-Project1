@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   window.turnBanner = new TurnBanner(document.getElementById("turn-banner"));
   window.actionBar = new ActionBar().mount(document.getElementById("console-stage"));
+  window.settingsMenu = new SettingsMenu().mount(document.body);
 
   // Mount from gameState (not PARTY/MONSTER) so the stat card sees live HP.
   const monsterStage = document.getElementById("monster-stage");
