@@ -96,6 +96,14 @@ function applyHealToMember(id, amount) {
   member.hp = Math.min(member.stats.maxHp, member.hp + amount);
 }
 
+function consumeItem(id) {
+  const item = getItem(id);
+  if (!item || item.count <= 0) return false;
+  item.count -= 1;
+  livingParty().forEach((m) => applyHealToMember(m.id, item.healAmount));
+  return true;
+}
+
 function advanceTurn() {
   if (gameState.gameOver) return;
   gameState.turn = gameState.turn === "party" ? "monster" : "party";
@@ -115,12 +123,15 @@ function startPartyTurn() {
 
 window.gameState = gameState;
 window.getPartyMember = getPartyMember;
+window.getItem = getItem;
 window.livingParty = livingParty;
 window.applyDamageToMonster = applyDamageToMonster;
 window.applyDamageToMember = applyDamageToMember;
 window.applyHealToMember = applyHealToMember;
 window.canAttack = canAttack;
 window.canUseSpecial = canUseSpecial;
+window.canUseItemNow = canUseItemNow;
 window.allActed = allActed;
 window.applySpecial = applySpecial;
+window.consumeItem = consumeItem;
 window.advanceTurn = advanceTurn;
