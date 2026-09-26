@@ -182,3 +182,61 @@ body {
   font-weight: normal;
   color: #7a5c3e;
 }
+
+.special-tooltip {
+  position: absolute;
+  right: -20px;
+  bottom: 35px;
+  display: flex;
+  z-index: 11;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  color: #262637;
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(8px);
+  transition: opacity 150ms, transform 150ms, visibility 150ms;
+}
+
+.special-tooltip.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.special-tooltip__cap {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+}
+
+.special-tooltip__pin {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+.special-tooltip__icon {
+  width: 24px;
+  height: 24px;
+  image-rendering: pixelated;
+}
+
+.special-tooltip__text {
+  text-align: center;
+  text-wrap: balance;
+}
+
+.special-tooltip__middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 180px;
+  padding: 8px 8px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+}
