@@ -1,18 +1,17 @@
+const ICON_SLOT_BG = "sprites/ui/Sprites/Content/5 Holders/5.png";
 const ICON_SLOT_CORNERS = [
   "sprites/ui/Sprites/Content/6 Highlighter/1.png", // top-left
   "sprites/ui/Sprites/Content/6 Highlighter/2.png", // top-right
   "sprites/ui/Sprites/Content/6 Highlighter/3.png", // bottom-right
   "sprites/ui/Sprites/Content/6 Highlighter/4.png", // bottom-left
 ];
-const ICON_SLOT_CORNER_SIZE = 16;
 
 class IconSlot {
-  constructor({ icon, badge = "", onClick, disabled = false, size = 64 } = {}) {
+  constructor({ icon, badge = "", onClick, disabled = false } = {}) {
     this.el = document.createElement("button");
     this.el.type = "button";
     this.el.className = "icon-slot";
-    this.el.style.width = `${size}px`;
-    this.el.style.height = `${size}px`;
+    this.el.style.backgroundImage = `url("${encodeURI(ICON_SLOT_BG)}")`;
 
     this.iconEl = document.createElement("img");
     this.iconEl.className = "icon-slot__icon";
@@ -26,8 +25,6 @@ class IconSlot {
     ICON_SLOT_CORNERS.forEach((src, i) => {
       const corner = document.createElement("div");
       corner.className = `icon-slot__corner icon-slot__corner--${i}`;
-      corner.style.width = `${ICON_SLOT_CORNER_SIZE}px`;
-      corner.style.height = `${ICON_SLOT_CORNER_SIZE}px`;
       corner.style.backgroundImage = `url("${encodeURI(src)}")`;
       this.el.appendChild(corner);
     });
