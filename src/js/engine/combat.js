@@ -17,8 +17,10 @@ function partyAttack(memberId) {
   if (!member || !canAttack(member)) return;
 
   return runAction(async () => {
+    playSound("partyAttack");
     await partySprites[memberId].play("attack");
-    applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
+    const damage = applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
+    showCombatNumber(monsterSpriteEl, damage, "damage");
     member.acted = true;
     renderAll();
 
@@ -42,9 +44,26 @@ function partySpecial(memberId) {
   if (!member || !canUseSpecial(member)) return;
 
   return runAction(async () => {
+    playSound(soundForSpecial(member.special.effect));
     const party = livingParty();
     await Promise.all(party.map((m) => partySprites[m.id].play(member.special.anim)));
-    applySpecial(member);
+    applySpecial(member).forEach(({ id, amount, type }) => {
+      showCombatNumber(partySpriteEls[id], amount, type);
+    });
+  });
+}
+
+function partyUseItem(itemId) {
+  const item = getItem(itemId);
+  if (!item || !canUseItemNow(item)) return;
+
+  return runAction(async () => {
+    playSound("heal");
+    const party = livingParty();
+    await Promise.all(party.map((m) => partySprites[m.id].play("heal")));
+    consumeItem(itemId).forEach(({id, amount, type}) => {
+      showCombatNumber(partySpriteEls[id], amount, type)
+    });
   });
 }
 
@@ -57,9 +76,10 @@ async function monsterTurn() {
   const target = targets[Math.floor(Math.random() * targets.length)];
   const attackName = MONSTER_ATTACK_NAMES[Math.floor(Math.random() * MONSTER_ATTACK_NAMES.length)];
 
+  playSound("monsterAttack");
   await monsterSprite.play(attackName);
-  // Defense Up lowers the hit, but the demon always deals at least 1.
-  applyDamageToMember(target.id, Math.max(1, gameState.monster.stats.atk - gameState.buffs.def));
+  const damage = applyDamageToMember(target.id, gameState.monster.stats.atk);
+  showCombatNumber(partySpriteEls[target.id], damage, "damage");
   renderAll();
 
   await partySprites[target.id].play(target.alive ? "hurt" : "death");
@@ -69,5 +89,16 @@ async function monsterTurn() {
   renderAll();
 }
 
+function restartGame() {
+  if (gameState.busy || !gameState.gameOver) return;
+  resetGameState();
+  Object.values(partySprites).forEach((sprite) => sprite.revive());
+  monsterSprite.revive();
+
+  renderAll();
+}
+
 window.partyAttack = partyAttack;
 window.partySpecial = partySpecial;
+window.partyUseItem = partyUseItem;
+window.restartGame = restartGame;
