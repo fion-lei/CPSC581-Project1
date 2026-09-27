@@ -19,22 +19,7 @@ function mountPartyMember(container, member, statCard) {
   const spriteEl = document.createElement("div");
   attackBtn.appendChild(spriteEl);
 
-  const specialBtn = document.createElement("button");
-  specialBtn.type = "button";
-  specialBtn.className = "party-member__special";
-  specialBtn.addEventListener("click", () => partySpecial(member.id));
-
-  const specialIcon = document.createElement("img");
-  specialIcon.className = "party-member__special-icon";
-  specialIcon.src = encodeURI(member.special.icon);
-  specialIcon.alt = "";
-
-  // Turns of cooldown left, shown over the icon (set by render.js)
-  const specialCooldown = document.createElement("span");
-  specialCooldown.className = "party-member__special-cooldown";
-  specialBtn.append(specialIcon, specialCooldown);
-
-  wrapper.append(hpBarEl, attackBtn, specialBtn);
+  wrapper.append(hpBarEl, attackBtn);
   container.appendChild(wrapper);
   statCard.attach(wrapper, member);
 
@@ -44,7 +29,7 @@ function mountPartyMember(container, member, statCard) {
     facing: "right",
   });
 
-  return { sprite, hpBar };
+  return { sprite, hpBar, anchor: spriteEl };
 }
 
 const MONSTER_SCALE = 6;
@@ -79,7 +64,7 @@ function mountMonster(container, monster, statCard) {
     facing: "left",
   });
 
-  return { sprite, hpBar };
+  return { sprite, hpBar, anchor: hitbox };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -88,17 +73,23 @@ document.addEventListener("DOMContentLoaded", () => {
     bonuses: (entity) => (gameState.party.includes(entity) ? gameState.buffs : {}),
   });
   window.turnBanner = new TurnBanner(document.getElementById("turn-banner"));
+  window.actionBar = new ActionBar().mount(document.getElementById("console-stage"));
+  window.settingsMenu = new SettingsMenu().mount(document.body);
 
   // Mount from gameState (not PARTY/MONSTER) so the stat card sees live HP.
   const monsterStage = document.getElementById("monster-stage");
   const monsterMount = mountMonster(monsterStage, gameState.monster, statCard);
   window.monsterSprite = monsterMount.sprite;
   window.monsterHpBar = monsterMount.hpBar;
+  window.monsterSpriteEl = monsterMount.anchor;
 
   const rosterStage = document.getElementById("roster-stage");
   const partyMounts = gameState.party.map((m) => mountPartyMember(rosterStage, m, statCard));
   window.partySprites = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].sprite]));
   window.partyHpBars = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].hpBar]));
+  window.partySpriteEls = Object.fromEntries(gameState.party.map((m, i) => [m.id, partyMounts[i].anchor]));
+
+  document.getElementById("restart-button").addEventListener("click", restartGame);
 
   renderAll();
 });
