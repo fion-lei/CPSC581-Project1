@@ -17,7 +17,7 @@ function partyAttack(memberId) {
   if (!member || !canAttack(member)) return;
 
   return runAction(async () => {
-    playSound("attack");
+    playSound("partyAttack");
     await partySprites[memberId].play("attack");
     const damage = applyDamageToMonster(member.stats.atk + gameState.buffs.atk);
     showCombatNumber(monsterSpriteEl, damage, "damage");
@@ -76,7 +76,7 @@ async function monsterTurn() {
   const target = targets[Math.floor(Math.random() * targets.length)];
   const attackName = MONSTER_ATTACK_NAMES[Math.floor(Math.random() * MONSTER_ATTACK_NAMES.length)];
 
-  playSound("attack");
+  playSound("monsterAttack");
   await monsterSprite.play(attackName);
   const damage = applyDamageToMember(target.id, gameState.monster.stats.atk);
   showCombatNumber(partySpriteEls[target.id], damage, "damage");
