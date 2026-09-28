@@ -48,6 +48,7 @@ function renderActionBar() {
     gameState.items.map((item) => ({
       icon: item.icon,
       tooltip: item.description,
+      tooltipName: item.name,
       badge: item.count,
       onClick: () => partyUseItem(item.id),
       disabled: !canUseItemNow(item),
