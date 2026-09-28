@@ -12,7 +12,7 @@ const PARTY = [
     id: "fion",
     name: "Fion",
     className: "Marksman",
-    traits: { role: "Vanguard", strengths: ["Leadership", "Communication"], weaknesses: ["Vulnerability"] },
+    traits: { role: "Vanguard", strengths: ["Leadership", "Communication", "Perfectionist"], weaknesses: ["Vulnerability"] },
     stats: { maxHp: 10, atk: 2, def: 1 },
     special: { name: "Attack Up", effect: "attackUp", description: "Boosts the whole party's ATK until your next turn.", amount: 1, cooldown: 2, anim: "attackUp", icon: specialIcon("fc1098")},
     sheet: charSheet("fion"),

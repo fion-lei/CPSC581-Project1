@@ -32,22 +32,22 @@ class StatCard {
 
     const px = (n) => `${n * STAT_CARD_SCALE}px`;
 
+    const { x, y, width, height } = STAT_CARD_TEXT_AREA;
+    const inset = [y, STAT_CARD_SIZE.width - x - width, STAT_CARD_SIZE.height - y - height, x];
+
     this.el = document.createElement("div");
     this.el.className = "stat-card";
     Object.assign(this.el.style, {
       width: px(STAT_CARD_SIZE.width),
-      height: px(STAT_CARD_SIZE.height),
-      backgroundImage: `url("${encodeURI(STAT_CARD_IMAGE)}")`,
+      minHeight: px(STAT_CARD_SIZE.height),
     });
+    const image = new URL(encodeURI(STAT_CARD_IMAGE), document.baseURI).href;
+    this.el.style.setProperty("--stat-card-image", `url("${image}")`);
+    this.el.style.setProperty("--stat-card-slice", inset.join(" "));
+    this.el.style.setProperty("--stat-card-inset", inset.map(px).join(" "));
 
     this.content = document.createElement("div");
     this.content.className = "stat-card__content";
-    Object.assign(this.content.style, {
-      left: px(STAT_CARD_TEXT_AREA.x),
-      top: px(STAT_CARD_TEXT_AREA.y),
-      width: px(STAT_CARD_TEXT_AREA.width),
-      height: px(STAT_CARD_TEXT_AREA.height),
-    });
 
     this.el.appendChild(this.content);
     container.appendChild(this.el);
@@ -110,10 +110,12 @@ class StatCard {
     const { name, className, traits = {}, stats = {} } = entity;
     const subtitle = [className, traits.role].filter(Boolean).join(" · ");
     const { strengths = [], weaknesses = [] } = traits;
-    const traitItems = [
-      ...strengths.filter(Boolean).map((t) => `<li class="stat-card__plus">+ ${t}</li>`),
-      ...weaknesses.filter(Boolean).map((t) => `<li class="stat-card__minus">- ${t}</li>`),
-    ].join("");
+    const traitGroup = (list, cls, sign) => {
+      const items = list.filter(Boolean).map((t) => `<li class="${cls}">${sign} ${t}</li>`).join("");
+      return items ? `<ul>${items}</ul>` : "";
+    };
+    const traitGroups =
+      traitGroup(strengths, "stat-card__plus", "+") + traitGroup(weaknesses, "stat-card__minus", "-");
     const profile = entity.profile
       ? `<div class="stat-card__profile" style="background-image: url('${encodeURI(STAT_CARD_PROFILE_RING)}')">
            ${portraitHtml(entity.profile)}
@@ -135,7 +137,7 @@ class StatCard {
         <div class="stat-card__info">
           <span class="stat-card__name">${name}</span>
           <span class="stat-card__class">${subtitle}</span>
-          <ul class="stat-card__traits">${traitItems}</ul>
+          <div class="stat-card__traits">${traitGroups}</div>
         </div>
       </div>
       <ul class="stat-card__stats">${statItems}</ul>
