@@ -12,14 +12,16 @@ function renderTurnBanner() {
 
 function renderPartyMember(member) {
   const el = document.querySelector(`.party-member[data-id="${member.id}"]`);
-  if (!el) return;
+  if (!el) return false;
 
   const hpBar = partyHpBars[member.id];
   if (hpBar) hpBar.setPct(member.hp / member.stats.maxHp);
 
+  const died = member.alive === false && !el.classList.contains("is-dead");
   el.classList.toggle("is-dead", !member.alive);
   el.classList.toggle("has-acted", member.alive && member.acted);
   el.querySelector(".party-member__attack").disabled = !canAttack(member);
+  return died;
 }
 
 function renderMonster() {
@@ -71,7 +73,8 @@ function renderDebugControls() {
 
 function renderAll() {
   renderTurnBanner();
-  gameState.party.forEach(renderPartyMember);
+  const deaths = gameState.party.map(renderPartyMember);
+  if (deaths.some(Boolean) && gameState.winner !== "monster") playSound("death");
   renderMonster();
   renderConsoleStage();
   renderActionBar();

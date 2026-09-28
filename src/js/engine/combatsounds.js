@@ -7,7 +7,8 @@ const SOUNDS = {
   buff: new Audio("sounds/buff.mp3"),
   win: new Audio("sounds/win.mp3"),
   defeat: new Audio("sounds/defeat.mp3"),
-  select: new Audio("sounds/select.mp3")
+  select: new Audio("sounds/select.mp3"),
+  death: new Audio("sounds/death.mp3")
 };
 
 function playSound(title) {
