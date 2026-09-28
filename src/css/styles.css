@@ -9,7 +9,8 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
     background: #20202c;
     color: #f0f0f0;
     font-family: "Monogram", monospace;
@@ -17,17 +18,25 @@ body {
 }
 
 #app {
+    display: grid;
+    grid-template-rows: auto minmax(0, 720px) auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "banner" "battlefield" "console";
+    align-content: center;
+    gap: clamp(4px, 1.5dvh, 16px);
+    height: 100dvh;
     max-width: 960px;
     margin: 0 auto;
-    padding: 16px;
+    padding: clamp(8px, 2dvh, 16px);
 }
 
 .turn-banner {
+    grid-area: banner;
     position: relative;
-    width: 576px;
-    max-width: 100%;
+    /* Leaves room for the fixed settings gear on narrow screens */
+    width: min(576px, 100% - 2 * clamp(36px, 5vw, 72px), 15dvh * 576 / 160);
     aspect-ratio: 576 / 160;
-    margin: 0 auto 8px;
+    margin: 0 auto;
 }
 
 .turn-banner svg {
@@ -52,20 +61,22 @@ body {
 
 /* Placeholder battlefield backdrop until real background art is chosen */
 #battlefield {
+  --s: var(--stage-scale, 1);
+  grid-area: battlefield;
   background:
       /* Boss aura ring */
     radial-gradient(
-      circle at 50% 135px,
+      circle at 50% calc(135px * var(--s)),
       transparent 0px,
-      transparent 85px,
-      rgba(165, 120, 215, 0.14) 87px,
-      rgba(165, 120, 215, 0.14) 90px,
-      transparent 93px
+      transparent calc(85px * var(--s)),
+      rgba(165, 120, 215, 0.14) calc(87px * var(--s)),
+      rgba(165, 120, 215, 0.14) calc(90px * var(--s)),
+      transparent calc(93px * var(--s))
     ),
 
   /* Boss spotlight */
     radial-gradient(
-      circle at 50% 135px,
+      circle at 50% calc(135px * var(--s)),
       rgba(165, 120, 215, 0.62) 0%,
       rgba(110, 80, 160, 0.38) 12%,
       rgba(70, 55, 110, 0.16) 25%,
@@ -136,7 +147,7 @@ body {
     outline-offset: 2px;
 
     position: relative;
-    height: 600px;
+    min-height: 0;
     padding: 16px;
 
     box-shadow:
@@ -266,9 +277,11 @@ body {
 
 #monster-stage {
   position: absolute;
-  top: 40px;
+  top: calc(40px * var(--s));
   left: 0;
   right: 0;
+  scale: var(--s);
+  transform-origin: top center;
 
   display: flex;
   flex-direction: column;
@@ -298,6 +311,8 @@ body {
 #roster-stage {
   position: absolute;
   inset: 0;
+  /* Full-size overlay; let hovers reach the demon underneath */
+  pointer-events: none;
 
   z-index: 2;
 }
@@ -325,22 +340,29 @@ body {
 
 #roster-stage .party-member {
   position: absolute;
+  pointer-events: auto;
+  scale: var(--s);
 }
 
 #roster-stage .party-member:nth-child(1){
   left: 12%;
   top: 42%;
+  transform-origin: top left;
 }
 
 #roster-stage .party-member:nth-child(2){
-  left: 50%;
+  left: 0;
+  right: 0;
+  width: max-content;
+  margin-inline: auto;
   top: 58%;
-  transform: translateX(-50%);
+  transform-origin: top center;
 }
 
 #roster-stage .party-member:nth-child(3){
   right: 12%;
   top: 42%;
+  transform-origin: top right;
 }
 
 .stat-card {
@@ -349,6 +371,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: var(--stat-card-inset);
+    transform-origin: top left;
     font-size: 16px;
     line-height: 1;
     opacity: 0;
@@ -575,9 +598,9 @@ body {
 }
 
 #console-stage {
+    grid-area: console;
     display: flex;
     justify-content: center;
-    margin-top: 16px;
     opacity: 1;
     transition: opacity 1.5s ease-in-out;
 }
@@ -1004,10 +1027,14 @@ body {
 }
 
 .restart-button {
+    grid-area: console;
+    align-self: center;
+    justify-self: center;
+    z-index: 1;
     display: block;
     width: 180px;
     height: 62px;
-    margin: 32px auto 0;
+    margin: 0;
     padding: 0 36px 0 28px;
     border: 0;
     background: url("../../sprites/ui/Sprites/Content/4 Buttons/0.png") center /
@@ -1047,11 +1074,21 @@ body {
 /* ---------- Debug Controls ---------- */
 
 #debug-controls {
-  margin-top: 16px;
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  z-index: 25;
+  width: min(900px, calc(100vw - 16px));
+  max-height: calc(100dvh - 16px);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 8px;
+  pointer-events: none;
+}
+
+#debug-controls > * {
+  pointer-events: auto;
 }
 
 #debug-toggle {
@@ -1072,6 +1109,8 @@ body {
 
 #debug-panel {
   width: 100%;
+  min-height: 0;
+  overflow-y: auto;
   box-sizing: border-box;
   padding: 16px;
 

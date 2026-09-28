@@ -147,21 +147,18 @@ class StatCard {
     if (img) img.onerror = () => img.remove();
   }
 
-  // Centered above the target (it may extend above the container, up to the top
+  // Centered above the target, shrunk to fit the battlefield width and the room above.
   _position(target) {
     const box = this.container.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
-    const w = this.el.offsetWidth;
-    const h = this.el.offsetHeight;
-    let left = rect.left - box.left + rect.width / 2 - w / 2;
-    const minTop = -box.top; // top of the window, in container coordinates
-    let top = rect.top - box.top - h;
-    if (top < minTop) {
-      left = rect.right - box.left;
-      top = rect.top - box.top + rect.height / 2 - h / 2;
-    }
+    const k = Math.max(0.6, Math.min(1, box.width / this.el.offsetWidth, rect.top / this.el.offsetHeight));
+    this.el.style.scale = k;
+    const w = this.el.offsetWidth * k;
+    const h = this.el.offsetHeight * k;
+    const left = rect.left - box.left + rect.width / 2 - w / 2;
+    const top = Math.max(-box.top, rect.top - box.top - h);
     this.el.style.left = `${Math.max(0, Math.min(left, box.width - w))}px`;
-    this.el.style.top = `${Math.max(minTop, top)}px`;
+    this.el.style.top = `${top}px`;
   }
 
 }
