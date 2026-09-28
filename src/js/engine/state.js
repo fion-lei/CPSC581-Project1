@@ -150,12 +150,12 @@ function consumeItem(id) {
 function advanceTurn() {
   if (gameState.gameOver) return;
   gameState.turn = gameState.turn === "party" ? "monster" : "party";
+  gameState.turnCount++;
   if (gameState.turn === "party") startPartyTurn();
 }
 
-// New round: everyone can act again, buffs wear off, cooldowns tick down.
+// Party's turn again: everyone can act, buffs wear off, cooldowns tick down.
 function startPartyTurn() {
-  gameState.turnCount++;
   gameState.specialUsed = false;
   gameState.buffs = { atk: 0, def: 0 };
   gameState.party.forEach((m) => {
