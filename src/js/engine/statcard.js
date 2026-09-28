@@ -3,6 +3,8 @@ const STAT_CARD_IMAGE = "sprites/ui/Sprites/Paper UI Pack/Plain/6 Player HUD/1.p
 const STAT_CARD_SIZE = { width: 256, height: 160 };
 const STAT_CARD_TEXT_AREA = { x: 40, y: 41, width: 176, height: 78 };
 const STAT_CARD_SCALE = 1.5;
+const STAT_CARD_REFERENCE_HEIGHT = 900;
+const STAT_CARD_ZOOM = { min: 0.6, max: 2 };
 const STAT_CARD_PROFILE_RING = "sprites/ui/Sprites/Content/5 Holders/2.png";
 const STAT_LABELS = { maxHp: "HP", atk: "ATK", def: "DEF" };
 const STAT_CARD_PORTRAIT_SIZE = 62; 
@@ -150,8 +152,8 @@ class StatCard {
   // Centered above the target, shrunk to fit the battlefield width and the room above.
   _scale(box) {
     const baseW = STAT_CARD_SIZE.width * STAT_CARD_SCALE;
-    const baseH = STAT_CARD_SIZE.height * STAT_CARD_SCALE;
-    return Math.max(0.6, Math.min(1, box.width / baseW, (window.innerHeight * 0.4) / baseH));
+    const zoom = Math.min(window.innerHeight / STAT_CARD_REFERENCE_HEIGHT, box.width / baseW);
+    return Math.max(STAT_CARD_ZOOM.min, Math.min(STAT_CARD_ZOOM.max, zoom));
   }
 
   _position(target) {
