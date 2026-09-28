@@ -2,6 +2,7 @@
 
 https://fion-lei.github.io/CPSC581-Project1/
 
+Sprites from: 
 https://clockworkraven.itch.io/raven-fantasy-icons
 https://zerie.itch.io/tiny-rpg-character-asset-pack-02
 https://humblepixel.itch.io/pocket-inventory-series-5-player-status
