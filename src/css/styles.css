@@ -345,14 +345,15 @@ body {
 
 .stat-card {
     position: absolute;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: var(--stat-card-inset);
     font-size: 16px;
     line-height: 1;
     opacity: 0;
     z-index: 10;
     pointer-events: none;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    image-rendering: pixelated;
     color: #262637;
     opacity: 0;
     visibility: hidden;
@@ -369,8 +370,19 @@ body {
     transform: none;
 }
 
-.stat-card__content {
+.stat-card::before {
+    content: "";
     position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: solid transparent;
+    border-width: var(--stat-card-inset);
+    border-image: var(--stat-card-image) var(--stat-card-slice) fill stretch;
+    image-rendering: pixelated;
+}
+
+.stat-card__content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -419,14 +431,16 @@ body {
 }
 
 .stat-card__traits {
-    display: grid;
-    grid-template-rows: repeat(3, auto);
-    grid-auto-flow: column;
-    justify-content: start;
+    display: flex;
+    flex-wrap: wrap;
     column-gap: 12px;
+}
+
+.stat-card__traits ul {
     margin: 0;
     padding: 0;
     list-style: none;
+    white-space: nowrap;
 }
 
 .stat-card__plus {
@@ -439,6 +453,7 @@ body {
 
 .stat-card__stats {
     display: flex;
+    justify-content: center;
     gap: 8px;
     margin: 0;
     padding: 0;
@@ -858,11 +873,12 @@ body {
 }
 
 .settings-popup {
-    --w: min(80vw, 400px, 75vh);
+    --w: min(90vw, 520px, 85vh);
     container-type: inline-size;
     width: var(--w);
     aspect-ratio: 1;
-    padding: calc(var(--w) * 0.21);
+    min-height: 0; /* keep the square: long text scrolls, not stretches */
+    padding: calc(var(--w) * 0.19) calc(var(--w) * 0.2) calc(var(--w) * 0.21);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -881,10 +897,34 @@ body {
 
 .settings-popup__body {
     align-self: stretch;
+    min-height: 0;
+    overflow-y: auto;
     margin: 0;
-    font-size: 9cqi;
-    line-height: 1.1;
+    padding: 0;
+    list-style: none;
+    font-family: "Monogram", monospace;
+    font-size: 6cqi;
+    line-height: 1;
     color: #262637;
+}
+
+.settings-popup__body li {
+    position: relative;
+    padding-left: 4cqi;
+}
+
+.settings-popup__body li + li {
+    margin-top: 3.5cqi;
+}
+
+.settings-popup__body li::before {
+    content: "";
+    position: absolute;
+    left: 0.5cqi;
+    top: 0.45em;
+    width: 1.5cqi;
+    height: 1.5cqi;
+    background: #0d9068;
 }
 
 .combat-number {
