@@ -168,7 +168,7 @@ function resetGameState() {
 
   Object.assign(gameState.monster, fresh.monster);
   gameState.monster.stats = { ...fresh.monster.stats };
-
+  gameState.items = fresh.items;
   gameState.turn = fresh.turn;
   gameState.turnCount = fresh.turnCount;
   gameState.specialUsed = fresh.specialUsed;
