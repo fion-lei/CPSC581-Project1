@@ -61,7 +61,10 @@ class SettingsMenu {
     this.toggle.setAttribute("aria-label", "Settings");
     this.toggle.setAttribute("aria-expanded", "false");
     this.toggle.innerHTML = `<img src="${encodeURI(SETTINGS_ICON)}" alt="">`;
-    this.toggle.addEventListener("click", () => this.open());
+    this.toggle.addEventListener("click", () => {
+      playSound("select");
+      this.open();
+    });
 
     this.menu = this._layer(this._buildPanel());
     this.popup = this._layer(this._buildPopup());
@@ -121,6 +124,7 @@ class SettingsMenu {
       button.setAttribute("aria-checked", String(on));
     };
     button.addEventListener("click", () => {
+      playSound("select");
       setSetting(key, !gameState.settings[key]);
       sync();
     });
@@ -165,7 +169,10 @@ class SettingsMenu {
       const button = document.createElement("button");
       button.type = "button";
       button.setAttribute("aria-label", option.label);
-      button.addEventListener("click", () => this.runOption(option));
+      button.addEventListener("click", () => {
+        playSound("select");
+        this.runOption(option);
+      });
 
       if (option.kind === "round") {
         button.className = "settings-round-button";

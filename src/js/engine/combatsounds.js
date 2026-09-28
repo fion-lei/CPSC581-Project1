@@ -6,7 +6,8 @@ const SOUNDS = {
   heal: new Audio("sounds/heal.mp3"),
   buff: new Audio("sounds/buff.mp3"),
   win: new Audio("sounds/win.mp3"),
-  defeat: new Audio("sounds/defeat.mp3")
+  defeat: new Audio("sounds/defeat.mp3"),
+  select: new Audio("sounds/select.mp3")
 };
 
 function playSound(title) {

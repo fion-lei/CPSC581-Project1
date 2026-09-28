@@ -122,7 +122,11 @@ class ActionBar {
   _fillRow(rowEl, row, entries) {
     rowEl.innerHTML = "";
     const slots = entries.map((entry, i) => {
-      const slot = new IconSlot({ ...entry, size: 56 });
+      const onClick = entry.onClick && (() => {
+        playSound("select");
+        entry.onClick();
+      });
+      const slot = new IconSlot({ ...entry, onClick, size: 56 });
       if (entry.tooltip) {
         const show = () => this._showTooltip({ row, index: i }, slot, entry);
         const hide = () => this._hideTooltip({ row, index: i });
