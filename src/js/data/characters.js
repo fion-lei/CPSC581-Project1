@@ -1,10 +1,6 @@
-// Each character's sheet lives at sprites/characters/{id}.png and follows
-// SHEET_LAYOUT (see engine/sprite.js), so adding a character is just a new PNG.
 const CHAR_SHEET_DIR = "sprites/characters";
-
 const charSheet = (id) => `${CHAR_SHEET_DIR}/${id}.png`;
 const charProfile = (id) => `${CHAR_SHEET_DIR}/${id}_profile.png`;
-// Special-ability icons, e.g. specialIcon("fc1073") -> the 64x64 heal icon
 const specialIcon = (name) => `sprites/icons/Separated Files/64x64/${name}.png`;
 
 const PARTY = [
@@ -12,7 +8,7 @@ const PARTY = [
     id: "fion",
     name: "Fion",
     className: "Marksman",
-    traits: { role: "Vanguard", strengths: ["Leadership", "Communication", "Perfectionist"], weaknesses: ["Vulnerability"] },
+    traits: { role: "Vanguard", strengths: ["Leadership", "Communication", "Perfectionism"], weaknesses: ["Vulnerability"] },
     stats: { maxHp: 10, atk: 2, def: 1 },
     special: { name: "Attack Up", effect: "attackUp", description: "Boosts the whole party's ATK until your next turn.", amount: 1, cooldown: 2, anim: "attackUp", icon: specialIcon("fc1098")},
     sheet: charSheet("fion"),
@@ -35,7 +31,7 @@ const PARTY = [
     traits: {
     role: "Smith",
     strengths: ["Analysis", "Mobility", "Communication"],
-    weaknesses: ["Strength"]
+    weaknesses: ["Impatience"]
     },
     stats: { maxHp: 10, atk: 2, def: 1 },
     special: { name: "Defense Up", effect: "defenseUp", description: "Boosts the whole party's DEF until your next turn.", amount: 1, cooldown: 2, anim: "defenseUp", icon: specialIcon("fc1099") },
