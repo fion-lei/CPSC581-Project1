@@ -8,8 +8,10 @@
 }
 
 body {
+    --gutter: clamp(8px, 2dvh, 16px);
     margin: 0;
     height: 100dvh;
+    padding: var(--gutter);
     overflow: hidden;
     background: #20202c;
     color: #f0f0f0;
@@ -19,22 +21,21 @@ body {
 
 #app {
     display: grid;
-    grid-template-rows: auto minmax(0, 720px) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "banner" "battlefield" "console";
     align-content: center;
     gap: clamp(4px, 1.5dvh, 16px);
-    height: 100dvh;
-    max-width: 960px;
+    height: 100%;
+    max-width: calc((100dvh - 2 * var(--gutter)) * 4 / 3);
     margin: 0 auto;
-    padding: clamp(8px, 2dvh, 16px);
 }
 
 .turn-banner {
     grid-area: banner;
     position: relative;
     /* Leaves room for the fixed settings gear on narrow screens */
-    width: min(576px, 100% - 2 * clamp(36px, 5vw, 72px), 15dvh * 576 / 160);
+    width: min(60%, 100% - 2 * clamp(36px, 5vw, 72px), 15dvh * 576 / 160);
     aspect-ratio: 576 / 160;
     margin: 0 auto;
 }
@@ -615,7 +616,7 @@ body {
 .action-bar {
     position: relative;
     container-type: inline-size;
-    width: 100%;
+    width: min(100%, 24dvh * 592 / 144);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     image-rendering: pixelated;
