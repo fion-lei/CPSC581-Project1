@@ -2,13 +2,11 @@
 
 https://fion-lei.github.io/CPSC581-Project1/
 
-Sprites from:
-https://erisesra.itch.io/character-templates-pack
-https://channeechan.itch.io/erisesra-character-template-animation-add-on
 https://clockworkraven.itch.io/raven-fantasy-icons
 https://zerie.itch.io/tiny-rpg-character-asset-pack-02
-https://crusenho.itch.io/complete-ui-book-styles-pack
+https://humblepixel.itch.io/pocket-inventory-series-5-player-status
 https://admurin.itch.io/free-chest-animations
+https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar
 
 Font from:
 https://datagoblin.itch.io/monogram
