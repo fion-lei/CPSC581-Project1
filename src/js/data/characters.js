@@ -31,8 +31,12 @@ const PARTY = [
   {
     id: "kevin",
     name: "Kevin",
-    className: "Swordsman",
-    traits: { role: "", strengths: ["X", "Y", "Z"], weaknesses: ["X"] },
+    className: "Artificer/Rogue",
+    traits: {
+    role: "Smith",
+    strengths: ["Analysis", "Mobility", "Communication"],
+    weaknesses: ["Strength"]
+    },
     stats: { maxHp: 10, atk: 2, def: 1 },
     special: { name: "Defense Up", effect: "defenseUp", description: "Boosts the whole party's DEF until your next turn.", amount: 1, cooldown: 2, anim: "defenseUp", icon: specialIcon("fc1099") },
     sheet: charSheet("kevin"),
