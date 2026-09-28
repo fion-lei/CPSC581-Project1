@@ -89,13 +89,14 @@ async function monsterTurn() {
   renderAll();
 }
 
-function restartGame() {
-  if (gameState.busy || !gameState.gameOver) return;
+function restartGame({ force = false } = {}) {
+  if (gameState.busy || (!gameState.gameOver && !force)) return false;
   resetGameState();
   Object.values(partySprites).forEach((sprite) => sprite.revive());
   monsterSprite.revive();
 
   renderAll();
+  return true;
 }
 
 window.partyAttack = partyAttack;

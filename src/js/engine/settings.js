@@ -6,13 +6,42 @@ const SETTINGS_BUTTON_HOVER = "sprites/ui/Sprites/Content/4 Buttons/3.png";
 const SETTINGS_POPUP = "sprites/ui/Sprites/Paper UI Pack/Plain/5 Mini Map/1.png";
 const SETTINGS_UNDERLINE = "sprites/ui/Sprites/Content/5 Holders/19.png";
 const SETTINGS_HELP_ICON = "sprites/icons/Separated Files/64x64/fc13.png";
+const SETTINGS_INSTRUCTIONS_ICON = "sprites/icons/Separated Files/64x64/fc103.png";
 
 
 const SETTINGS_OPTIONS = [
-  { id: "help", kind: "round", label: "Help", icon: SETTINGS_HELP_ICON, title: "Help", body: "" },
-  { id: "restart", kind: "full", label: "Restart", title: "Restart", body: "" },
-  { id: "instructions", kind: "full", label: "Instructions", title: "Instructions", body: "" },
-  { id: "settings", kind: "full", label: "Settings", title: "Settings", body: "" },
+  {
+    id: "help",
+    kind: "round",
+    label: "Help",
+    icon: SETTINGS_HELP_ICON,
+    title: "Help",
+    body: [
+      "Hover a hero or the demon for stats.",
+      "Hover an action or item for details.",
+      "Greyed-out slots can't be used yet.",
+      "Action numbers: turns until ready.",
+      "Item numbers: how many are left.",
+      "Press Esc to close a menu.",
+    ],
+  },
+  {
+    id: "instructions",
+    kind: "round",
+    label: "Instructions",
+    icon: SETTINGS_INSTRUCTIONS_ICON,
+    title: "Instructions",
+    body: [
+      "Defeat the demon to win the battle.",
+      "Click each hero once to attack.",
+      "Heroes may use an action first.",
+      "One action per turn, then it cools down.",
+      "Items heal the whole party.",
+      "The demon strikes after all heroes act.",
+    ],
+  },
+  { id: "restart", kind: "full", label: "Restart", action: () => restartGame({ force: true }) },
+  { id: "settings", kind: "full", label: "Settings", title: "Settings", body: [] },
 ];
 
 class SettingsMenu {
@@ -53,8 +82,19 @@ class SettingsMenu {
 
   showOption(option) {
     this.popupTitle.textContent = option.title;
-    this.popupBody.textContent = option.body;
+    this.popupBody.replaceChildren(
+      ...option.body.map((text) => {
+        const item = document.createElement("li");
+        item.textContent = text;
+        return item;
+      })
+    );
     this.popup.classList.add("is-open");
+  }
+
+  runOption(option) {
+    if (!option.action) return this.showOption(option);
+    if (option.action() !== false) this.close();
   }
 
   _close(layer) {
@@ -88,7 +128,7 @@ class SettingsMenu {
       const button = document.createElement("button");
       button.type = "button";
       button.setAttribute("aria-label", option.label);
-      button.addEventListener("click", () => this.showOption(option));
+      button.addEventListener("click", () => this.runOption(option));
 
       if (option.kind === "round") {
         button.className = "settings-round-button";
@@ -129,7 +169,7 @@ class SettingsMenu {
     underline.className = "settings-popup__underline";
     underline.src = encodeURI(SETTINGS_UNDERLINE);
     underline.alt = "";
-    this.popupBody = document.createElement("p");
+    this.popupBody = document.createElement("ul");
     this.popupBody.className = "settings-popup__body";
 
     popup.append(this.popupTitle, underline, this.popupBody);
