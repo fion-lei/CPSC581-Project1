@@ -42,7 +42,16 @@ const SETTINGS_OPTIONS = [
       "The demon strikes after all heroes act.",
     ],
   },
-  { id: "restart", kind: "full", label: "Restart", action: () => restartGame({ force: true }) },
+  {
+    id: "restart",
+    kind: "full",
+    label: "Restart",
+    action: () => {
+      const restarted = restartGame({ force: true });
+      if (restarted) playSound("refresh");
+      return restarted;
+    },
+  },
   {
     id: "settings",
     kind: "full",
@@ -170,7 +179,7 @@ class SettingsMenu {
       button.type = "button";
       button.setAttribute("aria-label", option.label);
       button.addEventListener("click", () => {
-        playSound("select");
+        if (!option.action) playSound("select");
         this.runOption(option);
       });
 

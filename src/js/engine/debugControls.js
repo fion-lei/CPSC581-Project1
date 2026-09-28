@@ -72,7 +72,7 @@ function renderDebugPanel(panel) {
   resetButton.textContent = "Fresh Battle";
 
   resetButton.addEventListener("click", () => {
-    resetGameState();
+    if (restartGame({ force: true })) playSound("refresh");
     renderDebugPanel(panel);
   });
 
