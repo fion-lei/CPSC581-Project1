@@ -91,5 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("restart-button").addEventListener("click", restartGame);
 
+  initDebugControls();
   renderAll();
 });
