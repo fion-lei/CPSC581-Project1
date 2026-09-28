@@ -805,7 +805,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: calc(var(--w) * 0.04);
+    gap: calc(var(--w) * 0.025);
 }
 
 .settings-panel__round-row {
@@ -824,7 +824,7 @@ body {
 .settings-round-button {
     display: grid;
     place-items: center;
-    width: 28cqi;
+    width: 24cqi;
     aspect-ratio: 1;
     transition: transform 120ms;
 }
@@ -835,23 +835,26 @@ body {
 }
 
 .settings-round-button img {
-    width: 14cqi;
+    width: 12cqi;
 }
 
 .settings-button {
+    container-type: inline-size;
     width: 100%;
-    aspect-ratio: 80 / 32;
+    aspect-ratio: 80 / 22;
     padding: 0 22.75% 0 14%;
+    background-size: 100% calc(100% * 32 / 22);
     font-size: 9cqi;
     line-height: 1;
 }
 
 .settings-button__label {
     display: inline-block;
+    transform: translateY(calc(-0.5 * 100cqi / 80));
 }
 
 .settings-button.is-hover .settings-button__label {
-    transform: translateY(-1.25cqi);
+    transform: translateY(calc(0.5 * 100cqi / 80));
 }
 
 .settings-popup {

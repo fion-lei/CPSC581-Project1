@@ -1,8 +1,8 @@
 const SETTINGS_ICON = "sprites/icons/Separated Files/64x64/fc2.png";
 const SETTINGS_PANEL = "sprites/ui/Sprites/Paper UI Pack/Plain/8 Shop/1.png";
 const SETTINGS_SQUARE_BUTTON = "sprites/ui/Sprites/Content/5 Holders/7.png";
-const SETTINGS_BUTTON = "sprites/ui/Sprites/Content/4 Buttons/3.png";
-const SETTINGS_BUTTON_HOVER = "sprites/ui/Sprites/Content/4 Buttons/2.png";
+const SETTINGS_BUTTON = "sprites/ui/Sprites/Content/4 Buttons/2.png";
+const SETTINGS_BUTTON_HOVER = "sprites/ui/Sprites/Content/4 Buttons/3.png";
 const SETTINGS_POPUP = "sprites/ui/Sprites/Paper UI Pack/Plain/5 Mini Map/1.png";
 const SETTINGS_UNDERLINE = "sprites/ui/Sprites/Content/5 Holders/19.png";
 const SETTINGS_HELP_ICON = "sprites/icons/Separated Files/64x64/fc13.png";
@@ -10,7 +10,7 @@ const SETTINGS_HELP_ICON = "sprites/icons/Separated Files/64x64/fc13.png";
 
 const SETTINGS_OPTIONS = [
   { id: "help", kind: "round", label: "Help", icon: SETTINGS_HELP_ICON, title: "Help", body: "" },
-  { id: "restart", kind: "round", label: "Restart", title: "Restart", body: "" },
+  { id: "restart", kind: "full", label: "Restart", title: "Restart", body: "" },
   { id: "instructions", kind: "full", label: "Instructions", title: "Instructions", body: "" },
   { id: "settings", kind: "full", label: "Settings", title: "Settings", body: "" },
 ];
