@@ -1187,6 +1187,7 @@ body {
 .debug-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
 
   margin-top: 14px;
 }

@@ -76,8 +76,33 @@ function renderDebugPanel(panel) {
     renderDebugPanel(panel);
   });
 
-  actions.appendChild(resetButton);
+  actions.append(
+    resetButton,
+    createActionButton("Party Wins", () => playOutcome("party")),
+    createActionButton("Demon Wins", () => playOutcome("monster"))
+  );
   panel.appendChild(actions);
+}
+
+
+function playOutcome(winner) {
+  if (gameState.busy) return;
+  if (gameState.gameOver) restartGame({ force: true });
+
+  if (winner === "party") {
+    gameState.monster.hp = 0;
+    monsterSprite.play("death");
+    playSound("win");
+  } else {
+    gameState.party.forEach((member) => {
+      member.hp = 0;
+      partySprites[member.id].play("death");
+    });
+    playSound("defeat");
+  }
+
+  syncBattleState();
+  renderAll();
 }
 
 

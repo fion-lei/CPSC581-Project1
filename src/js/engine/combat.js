@@ -25,6 +25,7 @@ function partyAttack(memberId) {
     renderAll();
 
     if (!gameState.monster.alive) {
+      playSound("win");
       await monsterSprite.play("death");
       return;
     }
@@ -82,6 +83,7 @@ async function monsterTurn() {
   showCombatNumber(partySpriteEls[target.id], damage, "damage");
   renderAll();
 
+  if (gameState.winner === "monster") playSound("defeat");
   await partySprites[target.id].play(target.alive ? "hurt" : "death");
   if (gameState.gameOver) return;
 
