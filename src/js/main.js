@@ -67,7 +67,18 @@ function mountMonster(container, monster, statCard) {
   return { sprite, hpBar, anchor: hitbox };
 }
 
+const STAGE_SIZE = { width: 520, height: 440 };
+
+function fitStage(battlefield) {
+  new ResizeObserver(() => {
+    const { clientWidth: width, clientHeight: height } = battlefield;
+    const scale = Math.min(2, width / STAGE_SIZE.width, height / STAGE_SIZE.height);
+    battlefield.style.setProperty("--stage-scale", scale);
+  }).observe(battlefield);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  fitStage(document.getElementById("battlefield"));
   // Party buffs (Attack Up / Defense Up) show on party members' cards.
   window.statCard = new StatCard(document.getElementById("battlefield"), {
     bonuses: (entity) => (gameState.party.includes(entity) ? gameState.buffs : {}),

@@ -3,6 +3,8 @@ const STAT_CARD_IMAGE = "sprites/ui/Sprites/Paper UI Pack/Plain/6 Player HUD/1.p
 const STAT_CARD_SIZE = { width: 256, height: 160 };
 const STAT_CARD_TEXT_AREA = { x: 40, y: 41, width: 176, height: 78 };
 const STAT_CARD_SCALE = 1.5;
+const STAT_CARD_REFERENCE_HEIGHT = 900;
+const STAT_CARD_ZOOM = { min: 0.6, max: 2 };
 const STAT_CARD_PROFILE_RING = "sprites/ui/Sprites/Content/5 Holders/2.png";
 const STAT_LABELS = { maxHp: "HP", atk: "ATK", def: "DEF" };
 const STAT_CARD_PORTRAIT_SIZE = 62; 
@@ -147,21 +149,42 @@ class StatCard {
     if (img) img.onerror = () => img.remove();
   }
 
-  // Centered above the target (it may extend above the container, up to the top
+  // Centered above the target, shrunk to fit the battlefield width and the room above.
+  _scale(box) {
+    const baseW = STAT_CARD_SIZE.width * STAT_CARD_SCALE;
+    const zoom = Math.min(window.innerHeight / STAT_CARD_REFERENCE_HEIGHT, box.width / baseW);
+    return Math.max(STAT_CARD_ZOOM.min, Math.min(STAT_CARD_ZOOM.max, zoom));
+  }
+
   _position(target) {
     const box = this.container.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
-    const w = this.el.offsetWidth;
-    const h = this.el.offsetHeight;
-    let left = rect.left - box.left + rect.width / 2 - w / 2;
+    const k = this._scale(box);
+    this.el.style.scale = k;
+    const w = this.el.offsetWidth * k;
+    const h = this.el.offsetHeight * k;
     const minTop = -box.top; // top of the window, in container coordinates
-    let top = rect.top - box.top - h;
+    const t = {
+      left: rect.left - box.left,
+      right: rect.right - box.left,
+      top: rect.top - box.top,
+      bottom: rect.bottom - box.top,
+    };
+
+    let left = (t.left + t.right) / 2 - w / 2;
+    let top = t.top - h;
     if (top < minTop) {
-      left = rect.right - box.left;
-      top = rect.top - box.top + rect.height / 2 - h / 2;
+      const besideTop = Math.max(minTop, (t.top + t.bottom) / 2 - h / 2);
+      if (t.right + w <= box.width) {
+        [left, top] = [t.right, besideTop];
+      } else if (t.left - w >= 0) {
+        [left, top] = [t.left - w, besideTop];
+      } else {
+        top = t.bottom;
+      }
     }
     this.el.style.left = `${Math.max(0, Math.min(left, box.width - w))}px`;
-    this.el.style.top = `${Math.max(minTop, top)}px`;
+    this.el.style.top = `${top}px`;
   }
 
 }
