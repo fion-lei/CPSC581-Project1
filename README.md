@@ -1,7 +1,7 @@
-# CPSC 581 Project 1 - Deadline Demon
+# CPSC 581 Project 1 - 581 Demon Hunters
 
 
-**Demon Hunters** is a turn-based pixel-art RPG battle. Our three-person party, Fion, Wish, and Kevin, team up to defeat a demon.
+**581 Demon Hunters** is a turn-based pixel-art RPG battle. Our three-person party, Fion, Wish, and Kevin, team up to defeat a demon.
 
 - **Turns alternate** between the party and the demon.
 - On the party's turn, click each hero to attack once. Before attacking, one hero may use their special action (Attack Up, Group Heal or Defense Up), which then goes on cooldown.

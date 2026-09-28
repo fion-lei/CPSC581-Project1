@@ -30,10 +30,10 @@ const PARTY = [
     className: "Artificer/Rogue",
     traits: {
     role: "Smith",
-    strengths: ["Analysis", "Mobility", "Communication"],
+    strengths: ["Analysis", "Mobility", "Endurance"],
     weaknesses: ["Impatience"]
     },
-    stats: { maxHp: 10, atk: 2, def: 1 },
+    stats: { maxHp: 10, atk: 1, def: 2 },
     special: { name: "Defense Up", effect: "defenseUp", description: "Boosts the whole party's DEF until your next turn.", amount: 1, cooldown: 2, anim: "defenseUp", icon: specialIcon("fc1099") },
     sheet: charSheet("kevin"),
     profile: charProfile("kevin")
