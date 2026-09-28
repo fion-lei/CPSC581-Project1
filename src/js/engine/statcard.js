@@ -148,15 +148,39 @@ class StatCard {
   }
 
   // Centered above the target, shrunk to fit the battlefield width and the room above.
+  _scale(box) {
+    const baseW = STAT_CARD_SIZE.width * STAT_CARD_SCALE;
+    const baseH = STAT_CARD_SIZE.height * STAT_CARD_SCALE;
+    return Math.max(0.6, Math.min(1, box.width / baseW, (window.innerHeight * 0.4) / baseH));
+  }
+
   _position(target) {
     const box = this.container.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
-    const k = Math.max(0.6, Math.min(1, box.width / this.el.offsetWidth, rect.top / this.el.offsetHeight));
+    const k = this._scale(box);
     this.el.style.scale = k;
     const w = this.el.offsetWidth * k;
     const h = this.el.offsetHeight * k;
-    const left = rect.left - box.left + rect.width / 2 - w / 2;
-    const top = Math.max(-box.top, rect.top - box.top - h);
+    const minTop = -box.top; // top of the window, in container coordinates
+    const t = {
+      left: rect.left - box.left,
+      right: rect.right - box.left,
+      top: rect.top - box.top,
+      bottom: rect.bottom - box.top,
+    };
+
+    let left = (t.left + t.right) / 2 - w / 2;
+    let top = t.top - h;
+    if (top < minTop) {
+      const besideTop = Math.max(minTop, (t.top + t.bottom) / 2 - h / 2);
+      if (t.right + w <= box.width) {
+        [left, top] = [t.right, besideTop];
+      } else if (t.left - w >= 0) {
+        [left, top] = [t.left - w, besideTop];
+      } else {
+        top = t.bottom;
+      }
+    }
     this.el.style.left = `${Math.max(0, Math.min(left, box.width - w))}px`;
     this.el.style.top = `${top}px`;
   }
