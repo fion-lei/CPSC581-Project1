@@ -30,6 +30,15 @@ function createInitialState() {
 
 const gameState = createInitialState();
 
+gameState.settings = {
+  debugConsole: true, 
+};
+
+function setSetting(key, value) {
+  gameState.settings[key] = value;
+  renderAll();
+}
+
 function resetGameState() {
   const {party, monster, ...rest} = createInitialState();
   party.forEach((fresh, i) => Object.assign(gameState.party[i], fresh));
@@ -191,6 +200,7 @@ function resetGameState() {
 window.resetGameState = resetGameState;
 
 window.gameState = gameState;
+window.setSetting = setSetting;
 window.resetGameState = resetGameState;
 window.getPartyMember = getPartyMember;
 window.getItem = getItem;

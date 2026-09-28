@@ -903,7 +903,7 @@ body {
     padding: 0;
     list-style: none;
     font-family: "Monogram", monospace;
-    font-size: 6cqi;
+    font-size: 7cqi;
     line-height: 1;
     color: #262637;
 }
@@ -915,6 +915,37 @@ body {
 
 .settings-popup__body li + li {
     margin-top: 3.5cqi;
+}
+
+.settings-popup__body .settings-popup__toggle-row {
+    padding-left: 0;
+}
+
+.settings-popup__body .settings-popup__toggle-row::before {
+    content: none;
+}
+
+.settings-popup__toggle {
+    display: flex;
+    align-items: center;
+    gap: 3cqi;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.settings-popup__toggle img {
+    width: 12cqi;
+    margin: 0 -3cqi;
+    image-rendering: pixelated;
+}
+
+.settings-popup__toggle:hover span,
+.settings-popup__toggle:focus-visible span {
+    color: #0d9068;
 }
 
 .settings-popup__body li::before {
@@ -1051,6 +1082,7 @@ body {
   color: #f0e3c5;
 }
 
+#debug-controls[hidden],
 #debug-panel[hidden] {
   display: none;
 }

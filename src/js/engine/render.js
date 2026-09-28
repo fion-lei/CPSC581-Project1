@@ -65,6 +65,10 @@ function renderRestartButton() {
   document.getElementById("restart-button").classList.toggle("is-hidden", !show);
 }
 
+function renderDebugControls() {
+  document.getElementById("debug-controls").hidden = !gameState.settings.debugConsole;
+}
+
 function renderAll() {
   renderTurnBanner();
   gameState.party.forEach(renderPartyMember);
@@ -72,6 +76,7 @@ function renderAll() {
   renderConsoleStage();
   renderActionBar();
   renderRestartButton();
+  renderDebugControls();
   if (window.statCard) statCard.refresh();
   if (window.refreshDebugControls) {
     window.refreshDebugControls();

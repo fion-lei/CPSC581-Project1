@@ -7,6 +7,8 @@ const SETTINGS_POPUP = "sprites/ui/Sprites/Paper UI Pack/Plain/5 Mini Map/1.png"
 const SETTINGS_UNDERLINE = "sprites/ui/Sprites/Content/5 Holders/19.png";
 const SETTINGS_HELP_ICON = "sprites/icons/Separated Files/64x64/fc13.png";
 const SETTINGS_INSTRUCTIONS_ICON = "sprites/icons/Separated Files/64x64/fc103.png";
+const SETTINGS_TOGGLE_ON = "sprites/ui/Sprites/Content/5 Holders/21.png";
+const SETTINGS_TOGGLE_OFF = "sprites/ui/Sprites/Content/5 Holders/22.png";
 
 
 const SETTINGS_OPTIONS = [
@@ -41,7 +43,14 @@ const SETTINGS_OPTIONS = [
     ],
   },
   { id: "restart", kind: "full", label: "Restart", action: () => restartGame({ force: true }) },
-  { id: "settings", kind: "full", label: "Settings", title: "Settings", body: [] },
+  {
+    id: "settings",
+    kind: "full",
+    label: "Settings",
+    title: "Settings",
+    body: [],
+    toggles: [{ key: "debugConsole", label: "Debug console" }],
+  },
 ];
 
 class SettingsMenu {
@@ -87,9 +96,37 @@ class SettingsMenu {
         const item = document.createElement("li");
         item.textContent = text;
         return item;
-      })
+      }),
+      ...(option.toggles ?? []).map((toggle) => this._buildToggle(toggle))
     );
     this.popup.classList.add("is-open");
+  }
+
+  _buildToggle({ key, label }) {
+    const item = document.createElement("li");
+    item.className = "settings-popup__toggle-row";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "settings-popup__toggle";
+    button.setAttribute("role", "switch");
+    const icon = document.createElement("img");
+    icon.alt = "";
+    const text = document.createElement("span");
+    text.textContent = label;
+    button.append(icon, text);
+
+    const sync = () => {
+      const on = Boolean(gameState.settings[key]);
+      icon.src = encodeURI(on ? SETTINGS_TOGGLE_ON : SETTINGS_TOGGLE_OFF);
+      button.setAttribute("aria-checked", String(on));
+    };
+    button.addEventListener("click", () => {
+      setSetting(key, !gameState.settings[key]);
+      sync();
+    });
+    sync();
+    item.appendChild(button);
+    return item;
   }
 
   runOption(option) {
