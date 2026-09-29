@@ -9,12 +9,12 @@ const ITEMS = [
   },
   // TODO: fill with other group members favourite food and outline the effect
   {
-    id: "potion",
-    name: "Potion",
-    icon: "sprites/icons/Separated Files/64x64/fc12.png", // placeholder icon
-    description: "Test",
+    id: "magic-brew",
+    name: "Magic Brew",
+    icon: "sprites/icons/Separated Files/64x64/fc529.png",
+    description: "A healing, warm cup of brew that restores 5 HP.",
     healAmount: 5,
-    count: 3,
+    count: 1,
   },
   {
     id: "potion",
