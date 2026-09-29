@@ -1,23 +1,57 @@
-# CPSC 581 Project 1 - 581 Demon Hunters
+# 581 Demon Hunters
 
 **581 Demon Hunters** is a turn-based pixel-art RPG battle. Our three-person party, Fion, Wish, and Kevin, team up to defeat a demon.
 
-- **Turns alternate** between the party and the demon.
-- On the party's turn, click each hero to attack once. Before attacking, one hero may use their special action (Attack Up, Group Heal or Defense Up), which then goes on cooldown.
-- **Items** (the group's favourite foods) heal the whole party.
-- Hover over any character/demon to see their stat card (class, strengths, weaknesses, HP/ATK/DEF), or over an action or item to see what it does.
-- The **settings menu** (gear, top right) has Help, Instructions, Restart and a toggle for the debug console.
+**Play it here:** https://fion-lei.github.io/CPSC581-Project1/
 
-**Website**: https://fion-lei.github.io/CPSC581-Project1/
+## Table of Contents
 
-This project is a static frontend website built using:
+- [How to Play](#how-to-play)
+- [Built With](#built-with)
+- [Getting Started](#getting-started)
+- [Deployment](#deployment)
+- [Project Structure](#project-structure)
+- [Contributors](#contributors)
+- [References](#references)
 
-- HTML/CSS
+## How to Play
+
+### Turns
+
+- Turns alternate between the party and the demon.
+- On the party's turn, click each hero to attack once.
+- Once every hero has attacked, the demon strikes back.
+- Defeat the demon before it defeats your party.
+
+### Actions and Items
+
+- **Actions:** before attacking, one hero may use their special action, which then goes on cooldown.
+
+  | Hero | Action | Effect |
+  |---|---|---|
+  | Fion | Attack Up | Boosts the whole party's ATK until your next turn |
+  | Wish | Group Heal | Restores HP to every party member |
+  | Kevin | Defense Up | Boosts the whole party's DEF until your next turn |
+
+- **Items:** each hero's favourite food heals the whole party.
+
+### Interface
+
+- Hover over a hero or the demon to see their stat card (class, strengths, weaknesses, HP/ATK/DEF).
+- Hover over an action or item to see what it does.
+- The settings menu (gear, top right) has Help, Instructions, Restart and a toggle for the debug console.
+
+## Built With
+
+A static frontend website, with no frameworks or build tools:
+
+- HTML
+- CSS
 - JavaScript
 
 ## Getting Started
 
-There is no build step or install. The game is plain HTML, CSS and JavaScript loaded straight by `index.html`.
+There is no build step or install. `index.html` loads all the game files directly.
 
 1. Clone the repository:
     ```bash
@@ -34,13 +68,13 @@ There is no build step or install. The game is plain HTML, CSS and JavaScript lo
 
 The site is hosted on GitHub Pages. Any change merged into `main` goes live automatically within a few minutes.
 
-# Project Structure
+## Project Structure
 
 ```
 CPSC581-Project1/
 ├── index.html        # Page entry point: layout containers and <script> tags (load order matters)
 ├── fonts/            # Monogram pixel font used for all in-game text
-├── sounds/           # Sound effects (attacks, heal, buff, select, win, defeat)
+├── sounds/           # Sound effects (attacks, heal, buff, select, death, refresh, win, defeat)
 ├── sprites/          # Third-party pixel art (see References). Don't edit these files
 │   ├── characters/   # Party sprite sheets and profile portraits (fion, wish, kevin)
 │   ├── icons/        # Item, ability and UI icons (e.g. settings gear, help)
@@ -55,25 +89,19 @@ CPSC581-Project1/
                       # sounds, action bar, stat card, turn banner, settings menu, debug controls
 ```
 
-# Contributors
+## Contributors
 
 - Fion Lei
 - Wish Li
 - Kevin Wilson
 
-# References
+## References
 
-Sprites from:
-
-- https://clockworkraven.itch.io/raven-fantasy-icons
-- https://zerie.itch.io/tiny-rpg-character-asset-pack-02
-- https://humblepixel.itch.io/pocket-inventory-series-5-player-status
-- https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar
-
-Font from:
-
-- https://datagoblin.itch.io/monogram
-
-Sound effects from:
-
-- https://pixabay.com/sound-effects/
+| Asset | Source |
+|---|---|
+| Icons | [Raven Fantasy Icons](https://clockworkraven.itch.io/raven-fantasy-icons) |
+| Bosses | [Tiny RPG Character Asset Pack 02](https://zerie.itch.io/tiny-rpg-character-asset-pack-02) |
+| UI | [Pocket Inventory Series #5: Player Status](https://humblepixel.itch.io/pocket-inventory-series-5-player-status) |
+| HP bars | [Basic Pixel Health Bar and Scroll Bar](https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar) |
+| Font | [Monogram](https://datagoblin.itch.io/monogram) |
+| Sound effects | [Pixabay](https://pixabay.com/sound-effects/) |
