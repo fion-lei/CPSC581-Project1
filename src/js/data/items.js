@@ -1,13 +1,12 @@
 const ITEMS = [
   {
-    id: "strawberry-milk",
-    name: "Strawberry Milk",
-    icon: "sprites/icons/Separated Files/64x64/fc538.png", 
-    description: "A sweet, refreshing drink that restores 5 HP.",
+    id: "strawberry-cake",
+    name: "Bullseye Berry Cake",
+    icon: "sprites/icons/Separated Files/64x64/fc523.png", 
+    description: "A sweet, fluffy cake that restores 5 HP.",
     healAmount: 5,
     count: 1,
   },
-  // TODO: fill with other group members favourite food and outline the effect
   {
     id: "magic-brew",
     name: "Magic Brew",
@@ -17,11 +16,11 @@ const ITEMS = [
     count: 1,
   },
   {
-    id: "potion",
-    name: "Potion",
-    icon: "sprites/icons/Separated Files/64x64/fc12.png", // placeholder icon
-    description: "Test",
+    id: "pizza",
+    name: "Forge-Fired Pizza",
+    icon: "sprites/icons/Separated Files/64x64/fc526.png", 
+    description: "A toasty, wood-fired pizza that restores 5 HP",
     healAmount: 5,
-    count: 3,
+    count: 1,
   },
 ];
