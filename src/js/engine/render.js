@@ -39,7 +39,7 @@ function renderActionBar() {
     gameState.party.map((member) => ({
       icon: member.special.icon,
       tooltip: member.special.description,
-      tooltipName: member.name,
+      tooltipName: `${member.name}'s ${member.special.name}`,
       badge: member.cooldown > 0 ? member.cooldown : "",
       onClick: () => partySpecial(member.id),
       disabled: !canUseSpecial(member),
